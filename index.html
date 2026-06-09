@@ -139,6 +139,12 @@ table.htable tbody tr:hover td{background:#fafaf8;}
 .hist-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:2px 6px;margin-left:8px;}
 .hist-del:hover{color:var(--danger);}
 
+.desc-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;font-size:12px;font-weight:500;font-family:var(--font);border-radius:20px;border:.5px solid var(--border-dark);background:var(--bg-card);color:var(--text-muted);cursor:pointer;transition:all .15s;}
+.desc-toggle .dt-check{font-size:11px;opacity:0;transition:opacity .1s;}
+.desc-toggle .dt-val{font-family:var(--mono);font-size:11px;}
+.desc-toggle.on{background:var(--accent-light);border-color:var(--accent-border);color:var(--accent);}
+.desc-toggle.on .dt-check{opacity:1;}
+
 /* CONFIG */
 .cfg-section{background:var(--bg-card);border:.5px solid var(--border);border-radius:12px;margin-bottom:1rem;overflow:hidden;}
 .cfg-head{padding:.8rem 1.1rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
@@ -236,13 +242,7 @@ table.htable tbody tr:hover td{background:#fafaf8;}
             </div>
             <div class="fg">
               <label>Forma de pago</label>
-              <select id="sel-pago" onchange="recalc()">
-                <option value="pagare">Pagaré — 0%</option>
-                <option value="contado">Contado / transferencia</option>
-                <option value="fwd_corto">Canje FWD Dic26/Ene27</option>
-                <option value="fwd_cosecha">Canje FWD Cosecha 2027</option>
-                <option value="avc">Canje Dispo AVC girasol</option>
-              </select>
+              <select id="sel-pago" onchange="recalc()" id="sel-pago"></select>
             </div>
             <div class="fg">
               <label>Descuento pre-campaña</label>
@@ -257,6 +257,23 @@ table.htable tbody tr:hover td{background:#fafaf8;}
                 <option value="no">No aplica</option>
                 <option value="si">Sí — aplica</option>
               </select>
+            </div>
+          </div>
+          <!-- Descuentos extra -->
+          <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;align-items:flex-end;">
+            <div class="fg" style="flex:0 0 auto;">
+              <label>Desc. Nidera</label>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <input type="number" id="inp-desc-nidera" min="0" step="0.1" value="0" placeholder="0" oninput="recalc()" style="width:70px;padding:7px 9px;font-size:13px;font-family:var(--mono);border:.5px solid var(--border-dark);border-radius:8px;background:var(--bg-card);color:var(--text);outline:none;text-align:right;">
+                <span style="font-size:12px;color:var(--text-muted);font-family:var(--mono);">%</span>
+              </div>
+            </div>
+            <div class="fg" style="flex:0 0 auto;">
+              <label>Desc. Agrocambá</label>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <input type="number" id="inp-desc-agrocamba" min="0" step="0.1" value="0" placeholder="0" oninput="recalc()" style="width:70px;padding:7px 9px;font-size:13px;font-family:var(--mono);border:.5px solid var(--border-dark);border-radius:8px;background:var(--bg-card);color:var(--text);outline:none;text-align:right;">
+                <span style="font-size:12px;color:var(--text-muted);font-family:var(--mono);">%</span>
+              </div>
             </div>
           </div>
         </div>
@@ -382,10 +399,18 @@ table.htable tbody tr:hover td{background:#fafaf8;}
             <input class="cfg-input" id="cfg-pc-gira" type="number" step="0.1" min="0">
             <span class="cfg-unit">%</span>
           </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Descuento Nidera<div class="cfg-row-sub">Descuento especial negociado con Nidera</div></div>
+            <input class="cfg-input" id="cfg-desc-nidera" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Descuento Agrocambá<div class="cfg-row-sub">Descuento propio de Cambá al productor</div></div>
+            <input class="cfg-input" id="cfg-desc-agrocamba" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
         </div>
       </div>
-
-      <!-- Volumen maíz -->
       <div class="cfg-section">
         <div class="cfg-head"><div class="cfg-title">Descuento por volumen · Maíz (bolsas)</div></div>
         <div class="cfg-body">
@@ -450,7 +475,7 @@ table.htable tbody tr:hover td{background:#fafaf8;}
 // ── DEFAULTS ──────────────────────────────────────────────
 const DEFAULT_CONFIG={
   pago:{pagare:0,contado:8,fwd_corto:3,fwd_cosecha:3,avc:12},
-  especial:{crecer:2.5,pc_especial:6,pc_maiz:8,pc_ns1227:0,pc_gira:2},
+  especial:{crecer:2.5,pc_especial:6,pc_maiz:8,pc_ns1227:0,pc_gira:2,desc_nidera:0,desc_agrocamba:0},
   vol_maiz:[
     {min:0,max:29,desc:0},{min:30,max:99,desc:3},{min:100,max:199,desc:6},
     {min:200,max:349,desc:8},{min:350,max:549,desc:9},{min:550,max:999,desc:10},{min:1000,max:999999,desc:11}
@@ -486,6 +511,7 @@ let cfg=loadConfig();
 let cultivo='maiz';
 let carrito=[];
 let historial=JSON.parse(localStorage.getItem('cot_hist')||'[]');
+let descToggles={nidera:false,agrocamba:false}; // legacy, no longer used
 
 function loadConfig(){
   try{
@@ -515,8 +541,41 @@ function getDescPago(pagoKey,cult){
 }
 function getPagoLabel(key){
   const d=cfg.pago[key]||0;
-  const labels={pagare:'Pagaré',contado:'Contado',fwd_corto:'Canje FWD Dic26/Ene27',fwd_cosecha:'Canje FWD Cosecha 2027',avc:'Canje Dispo AVC'};
-  return (labels[key]||key)+(d>0?` −${d}%`:'');
+  const labels={pagare:'Pagaré',contado:'Contado / transferencia',fwd_corto:'Canje FWD Dic26/Ene27',fwd_cosecha:'Canje FWD Cosecha 2027',avc:'Canje Dispo AVC girasol'};
+  return (labels[key]||key)+(d>0?` — −${d}%`:' — 0%');
+}
+
+function populatePago(){
+  const sel=document.getElementById('sel-pago');
+  const curr=sel.value;
+  sel.innerHTML=[
+    {v:'pagare',l:'Pagaré'},
+    {v:'contado',l:'Contado / transferencia'},
+    {v:'fwd_corto',l:'Canje FWD Dic26/Ene27'},
+    {v:'fwd_cosecha',l:'Canje FWD Cosecha 2027'},
+    {v:'avc',l:'Canje Dispo AVC girasol'},
+  ].map(o=>{
+    const d=cfg.pago[o.v]||0;
+    return`<option value="${o.v}"${curr===o.v?' selected':''}>${o.l} — ${d>0?'−'+d+'%':'0%'}</option>`;
+  }).join('');
+}
+
+function updateToggleUI(){
+  ['nidera','agrocamba'].forEach(k=>{
+    const btn=document.getElementById('tog-'+k);
+    const val=cfg.especial['desc_'+k]||0;
+    document.getElementById('dt-'+k+'-val').textContent=val>0?`−${val}%`:'(0%)';
+    btn.classList.toggle('on',descToggles[k]&&val>0);
+    btn.style.display=val>0?'inline-flex':'none';
+  });
+}
+
+function toggleDesc(k){
+  const val=cfg.especial['desc_'+k]||0;
+  if(!val)return;
+  descToggles[k]=!descToggles[k];
+  updateToggleUI();
+  recalc();
 }
 
 function calcDescItem(item,pago,precampaña,crecer,dVol){
@@ -525,6 +584,9 @@ function calcDescItem(item,pago,precampaña,crecer,dVol){
   d+=getDescPago(pago,item.cultivo);
   if(crecer)d+=cfg.especial.crecer||0;
   d+=dVol;
+  const dNidera=parseFloat(document.getElementById('inp-desc-nidera').value)||0;
+  const dAgro=parseFloat(document.getElementById('inp-desc-agrocamba').value)||0;
+  d+=dNidera+dAgro;
   return d;
 }
 
@@ -628,6 +690,10 @@ function recalc(){
   if(crecer)tags.push(`Plan Crecer −${cfg.especial.crecer}%`);
   if(dVolMaiz>0)tags.push(`Vol. maíz ${totalBolsasCultivo('maiz')} bolsas → −${dVolMaiz}%`);
   if(dVolGira>0)tags.push(`Vol. girasol ${totalBolsasCultivo('gira')} bolsas → −${dVolGira}%`);
+  const dNidera=parseFloat(document.getElementById('inp-desc-nidera').value)||0;
+  const dAgro=parseFloat(document.getElementById('inp-desc-agrocamba').value)||0;
+  if(dNidera>0)tags.push(`Desc. Nidera −${dNidera}%`);
+  if(dAgro>0)tags.push(`Desc. Agrocambá −${dAgro}%`);
   document.getElementById('desc-tags').innerHTML=tags.length?tags.map(t=>`<span class="dtag">✓ ${t}</span>`).join(''):'<span style="font-size:12px;color:var(--text-muted);">Sin descuentos adicionales</span>';
   let volHint='';
   const bMaiz=totalBolsasCultivo('maiz');
@@ -736,6 +802,8 @@ function renderConfig(){
   document.getElementById('cfg-pc-maiz').value=cfg.especial.pc_maiz;
   document.getElementById('cfg-pc-ns1227').value=cfg.especial.pc_ns1227;
   document.getElementById('cfg-pc-gira').value=cfg.especial.pc_gira;
+  document.getElementById('cfg-desc-nidera').value=cfg.especial.desc_nidera||0;
+  document.getElementById('cfg-desc-agrocamba').value=cfg.especial.desc_agrocamba||0;
   // Volumen maíz
   document.getElementById('cfg-vol-maiz').innerHTML=cfg.vol_maiz.map((t,i)=>`
     <div class="vol-row">
@@ -755,6 +823,8 @@ function renderConfig(){
   renderPreciosList('gira');
   // Validez
   document.getElementById('cfg-validez').value=cfg.validez||'';
+  populatePago();
+  updateToggleUI();
 }
 
 function renderPreciosList(cult){
@@ -836,6 +906,8 @@ function guardarConfig(){
   cfg.especial.pc_maiz=parseFloat(document.getElementById('cfg-pc-maiz').value)||0;
   cfg.especial.pc_ns1227=parseFloat(document.getElementById('cfg-pc-ns1227').value)||0;
   cfg.especial.pc_gira=parseFloat(document.getElementById('cfg-pc-gira').value)||0;
+  cfg.especial.desc_nidera=parseFloat(document.getElementById('cfg-desc-nidera').value)||0;
+  cfg.especial.desc_agrocamba=parseFloat(document.getElementById('cfg-desc-agrocamba').value)||0;
   // Vol maíz
   cfg.vol_maiz.forEach((t,i)=>{t.desc=parseFloat(document.getElementById('vmaiz-'+i).value)||0;});
   // Vol girasol
@@ -852,6 +924,8 @@ function guardarConfig(){
   cfg.validez=document.getElementById('cfg-validez').value.trim()||cfg.validez;
   document.getElementById('footer-validez').textContent='hasta el '+cfg.validez;
   saveConfig();
+  populatePago();
+  updateToggleUI();
   renderHibridos();
   showToast('✓ Configuración guardada');
 }
@@ -860,6 +934,7 @@ function resetConfig(){
   if(!confirm('¿Restaurar todos los valores originales de Nidera? Se perderán los cambios.'))return;
   cfg=JSON.parse(JSON.stringify(DEFAULT_CONFIG));
   saveConfig();
+  descToggles={nidera:false,agrocamba:false};
   renderConfig();
   renderHibridos();
   showToast('✓ Valores restaurados');
@@ -873,6 +948,8 @@ function showToast(msg){
 
 // Init
 document.getElementById('footer-validez').textContent='hasta el '+cfg.validez;
+populatePago();
+updateToggleUI();
 renderHibridos();
 </script>
 </body>
