@@ -608,15 +608,18 @@ function toggleDesc(k){
 }
 
 function calcDescItem(item,pago,precampaña,crecer,dVol){
-  let d=0;
-  if(precampaña)d+=getPcHibrido(item);
-  d+=getDescPago(pago,item.cultivo);
-  if(crecer)d+=cfg.especial.crecer||0;
-  d+=dVol;
   const dNidera=parseFloat(document.getElementById('inp-desc-nidera').value)||0;
   const dAgro=parseFloat(document.getElementById('inp-desc-agrocamba').value)||0;
-  d+=dNidera+dAgro;
-  return d;
+  // Descuentos encadenados: cada uno se aplica sobre el precio ya descontado
+  let factor=1;
+  if(precampaña) factor*=(1-(getPcHibrido(item)/100));
+  factor*=(1-(getDescPago(pago,item.cultivo)/100));
+  if(crecer) factor*=(1-((cfg.especial.crecer||0)/100));
+  factor*=(1-(dVol/100));
+  if(dNidera>0) factor*=(1-(dNidera/100));
+  if(dAgro>0) factor*=(1-(dAgro/100));
+  // Devuelvo el descuento total equivalente para mostrarlo en pantalla
+  return parseFloat(((1-factor)*100).toFixed(4));
 }
 
 // ── UI TABS ───────────────────────────────────────────────
