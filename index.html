@@ -579,6 +579,8 @@ function getDescVolumenEfectivo(cult){
   // Si eligió un tramo del otro cultivo, para este cultivo va automático
   return getDescVolumen(totalBolsasCultivo(cult),cult);
 }
+
+function populatePago(){
   const sel=document.getElementById('sel-pago');
   const curr=sel.value;
   sel.innerHTML=[
