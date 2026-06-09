@@ -325,6 +325,31 @@ const GIRA=[
 const PAGO_DESC={pagare:0,contado:8,fwd_corto:3,fwd_cosecha:3,avc:12};
 const PAGO_LABEL={pagare:'Pagaré',contado:'Contado −8%',fwd_corto:'Canje FWD Dic26/Ene27 −3%',fwd_cosecha:'Canje FWD Cosecha 2027 −3%',avc:'Canje Dispo AVC −12%'};
 
+// Descuentos por volumen
+const VOL_MAIZ=[
+  {min:0,  max:29,  desc:0},
+  {min:30, max:99,  desc:3},
+  {min:100,max:199, desc:6},
+  {min:200,max:349, desc:8},
+  {min:350,max:549, desc:9},
+  {min:550,max:999, desc:10},
+  {min:1000,max:Infinity,desc:11},
+];
+const VOL_GIRA=[
+  {min:0,  max:30,  desc:0},
+  {min:31, max:60,  desc:1},
+  {min:61, max:120, desc:2},
+  {min:121,max:180, desc:3},
+  {min:181,max:330, desc:4},
+  {min:331,max:Infinity,desc:5},
+];
+
+function getDescVolumen(bolsas, cultivo){
+  const tabla=cultivo==='maiz'?VOL_MAIZ:VOL_GIRA;
+  const tramo=tabla.find(t=>bolsas>=t.min&&bolsas<=t.max);
+  return tramo?tramo.desc:0;
+}
+
 let cultivo='maiz';
 let carrito=[];
 let historial=JSON.parse(localStorage.getItem('cot_hist')||'[]');
@@ -356,7 +381,7 @@ function getPrecioLista(h,banda){
   return h.b3!=null?h.b3:h.b1;
 }
 
-function calcDesc(h){
+function calcDesc(h, dVol){
   const pago=document.getElementById('sel-pago').value;
   const precampaña=document.getElementById('sel-precampaña').value==='si';
   const crecer=document.getElementById('sel-crecer').value==='si';
@@ -365,16 +390,23 @@ function calcDesc(h){
   const dp=(cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
   d+=dp;
   if(crecer)d+=2.5;
+  d+=(dVol||0);
   return d;
+}
+
+function totalBolsasCultivo(c){
+  return carrito.filter(x=>x.cultivo===c).reduce((a,b)=>a+b.qty,0);
 }
 
 function renderHibridos(){
   const lista=cultivo==='maiz'?MAIZ:GIRA;
   const banda=parseInt(document.getElementById('sel-banda').value);
+  const totalBolsas=totalBolsasCultivo(cultivo);
+  const dVol=getDescVolumen(totalBolsas,cultivo);
   const body=document.getElementById('hibridos-body');
   body.innerHTML=lista.map(h=>{
     const lista_precio=getPrecioLista(h,banda);
-    const d=calcDesc(h);
+    const d=calcDesc(h,dVol);
     const pf=lista_precio*(1-d/100);
     return`<tr>
       <td>
@@ -419,17 +451,25 @@ function recalc(){
     return;
   }
 
+  // Calcular volumen por cultivo
+  const bolsasMaiz=totalBolsasCultivo('maiz');
+  const bolsasGira=totalBolsasCultivo('gira');
+  const dVolMaiz=getDescVolumen(bolsasMaiz,'maiz');
+  const dVolGira=getDescVolumen(bolsasGira,'gira');
+
   let subtotal=0;
   const items=carrito.map((item,i)=>{
+    const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
     let d=0;
     if(precampaña)d+=item.pc||0;
     const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
     d+=dp;
     if(crecer)d+=2.5;
+    d+=dVol;
     const pf=item.lista_precio*(1-d/100);
     const total=pf*item.qty;
     subtotal+=total;
-    return{...item,d,pf,total};
+    return{...item,d,dVol,pf,total};
   });
 
   body.innerHTML=items.map((item,i)=>`
@@ -449,10 +489,23 @@ function recalc(){
   if(precampaña)tags.push('Pre-campaña (variable por híbrido)');
   if(dp)tags.push(PAGO_LABEL[pago]);
   if(crecer)tags.push('Plan Crecer −2,5%');
+  if(dVolMaiz>0)tags.push(`Vol. maíz ${bolsasMaiz} bolsas → −${dVolMaiz}%`);
+  if(dVolGira>0)tags.push(`Vol. girasol ${bolsasGira} bolsas → −${dVolGira}%`);
   document.getElementById('desc-tags').innerHTML=tags.length?tags.map(t=>`<span class="dtag">✓ ${t}</span>`).join(''):'<span style="font-size:12px;color:var(--text-muted);">Sin descuentos adicionales</span>';
 
+  // Próximo tramo volumen maíz
+  let volHint='';
+  if(bolsasMaiz>0){
+    const sigMaiz=VOL_MAIZ.find(t=>t.min>bolsasMaiz);
+    if(sigMaiz)volHint+=` · Maíz: faltan ${sigMaiz.min-bolsasMaiz} bolsas para −${sigMaiz.desc}%`;
+  }
+  if(bolsasGira>0){
+    const sigGira=VOL_GIRA.find(t=>t.min>bolsasGira);
+    if(sigGira)volHint+=` · Girasol: faltan ${sigGira.min-bolsasGira} bolsas para −${sigGira.desc}%`;
+  }
+
   document.getElementById('total-num').textContent='USD '+subtotal.toFixed(2);
-  document.getElementById('total-sub').textContent=carrito.reduce((a,b)=>a+b.qty,0)+' bolsa(s) en total';
+  document.getElementById('total-sub').textContent=carrito.reduce((a,b)=>a+b.qty,0)+' bolsa(s) en total'+(volHint?volHint:'');
 
   // Notas
   const notas=items.filter(x=>x.nota).map(x=>`<div class="nota-warn">⚠ <strong>${x.nombre}:</strong> ${x.nota}</div>`).join('');
@@ -467,14 +520,18 @@ function guardarCotizacion(){
   const precampaña=document.getElementById('sel-precampaña').value==='si';
   const crecer=document.getElementById('sel-crecer').value==='si';
   const cliente=document.getElementById('inp-cliente').value.trim();
+  const dVolMaiz=getDescVolumen(totalBolsasCultivo('maiz'),'maiz');
+  const dVolGira=getDescVolumen(totalBolsasCultivo('gira'),'gira');
 
   let subtotal=0;
   const items=carrito.map(item=>{
+    const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
     let d=0;
     if(precampaña)d+=item.pc||0;
     const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
     d+=dp;
     if(crecer)d+=2.5;
+    d+=dVol;
     const pf=item.lista_precio*(1-d/100);
     const total=pf*item.qty;
     subtotal+=total;
@@ -494,21 +551,27 @@ function copiarWA(){
   const precampaña=document.getElementById('sel-precampaña').value==='si';
   const crecer=document.getElementById('sel-crecer').value==='si';
   const cliente=document.getElementById('inp-cliente').value.trim();
+  const dVolMaiz=getDescVolumen(totalBolsasCultivo('maiz'),'maiz');
+  const dVolGira=getDescVolumen(totalBolsasCultivo('gira'),'gira');
   let subtotal=0;
   let txt='*Cotización Nidera — Cambá Agronegocios*\n';
   if(cliente)txt+=`Cliente: ${cliente}\n`;
   txt+=`Pago: ${PAGO_LABEL[pago]}\n\n`;
   carrito.forEach(item=>{
+    const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
     let d=0;
     if(precampaña)d+=item.pc||0;
     const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
     d+=dp;
     if(crecer)d+=2.5;
+    d+=dVol;
     const pf=item.lista_precio*(1-d/100);
     const total=pf*item.qty;
     subtotal+=total;
     txt+=`• ${item.nombre}: ${item.qty} bolsa${item.qty>1?'s':''} × USD ${pf.toFixed(2)} = *USD ${total.toFixed(2)}*\n`;
   });
+  if(dVolMaiz>0)txt+=`_Desc. volumen maíz aplicado: −${dVolMaiz}%_\n`;
+  if(dVolGira>0)txt+=`_Desc. volumen girasol aplicado: −${dVolGira}%_\n`;
   txt+=`\n*Total: USD ${subtotal.toFixed(2)}*\n`;
   txt+=`_Válido hasta 30/06/2026 o hasta agotar stock_`;
   navigator.clipboard.writeText(txt).then(()=>showToast('✓ Copiado al portapapeles')).catch(()=>showToast('No se pudo copiar'));
