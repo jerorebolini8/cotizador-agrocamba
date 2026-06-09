@@ -242,7 +242,7 @@ table.htable tbody tr:hover td{background:#fafaf8;}
             </div>
             <div class="fg">
               <label>Forma de pago</label>
-              <select id="sel-pago" onchange="recalc()" id="sel-pago"></select>
+              <select id="sel-pago" onchange="recalc()"></select>
             </div>
             <div class="fg">
               <label>Descuento pre-campaña</label>
@@ -257,6 +257,10 @@ table.htable tbody tr:hover td{background:#fafaf8;}
                 <option value="no">No aplica</option>
                 <option value="si">Sí — aplica</option>
               </select>
+            </div>
+            <div class="fg" style="grid-column:1/-1;">
+              <label>Descuento por volumen</label>
+              <select id="sel-vol" onchange="recalc()"></select>
             </div>
           </div>
           <!-- Descuentos extra -->
@@ -545,7 +549,36 @@ function getPagoLabel(key){
   return (labels[key]||key)+(d>0?` — −${d}%`:' — 0%');
 }
 
-function populatePago(){
+function populateVolSelector(){
+  const sel=document.getElementById('sel-vol');
+  const curr=sel.value;
+  const maizOpts=cfg.vol_maiz.map(t=>{
+    const label=t.max>=999999?`${t.min}+ bolsas`:`${t.min}–${t.max} bolsas`;
+    return`<option value="maiz-${t.min}">${label} — −${t.desc}% (maíz)</option>`;
+  });
+  const giraOpts=cfg.vol_gira.map(t=>{
+    const label=t.max>=999999?`${t.min}+ bolsas`:`${t.min}–${t.max} bolsas`;
+    return`<option value="gira-${t.min}">${label} — −${t.desc}% (girasol)</option>`;
+  });
+  sel.innerHTML=`<option value="auto">Automático — según bolsas del carrito</option>`+maizOpts.join('')+giraOpts.join('');
+  if(curr)sel.value=curr;
+}
+
+function getDescVolumenEfectivo(cult){
+  const sel=document.getElementById('sel-vol');
+  if(!sel)return getDescVolumen(totalBolsasCultivo(cult),cult);
+  const v=sel.value;
+  if(v==='auto')return getDescVolumen(totalBolsasCultivo(cult),cult);
+  // Manual: buscar el tramo seleccionado según cultivo
+  const [selCult,selMin]=v.split('-');
+  if(selCult===cult){
+    const tabla=cult==='maiz'?cfg.vol_maiz:cfg.vol_gira;
+    const t=tabla.find(x=>x.min===parseInt(selMin));
+    return t?t.desc:0;
+  }
+  // Si eligió un tramo del otro cultivo, para este cultivo va automático
+  return getDescVolumen(totalBolsasCultivo(cult),cult);
+}
   const sel=document.getElementById('sel-pago');
   const curr=sel.value;
   sel.innerHTML=[
@@ -620,7 +653,7 @@ function renderHibridos(){
   const pago=document.getElementById('sel-pago').value;
   const precampaña=document.getElementById('sel-precampaña').value==='si';
   const crecer=document.getElementById('sel-crecer').value==='si';
-  const dVol=getDescVolumen(totalBolsasCultivo(cultivo),cultivo);
+  const dVol=getDescVolumenEfectivo(cultivo);
   document.getElementById('hibridos-body').innerHTML=lista.map(h=>{
     const lp=getPrecioLista(h,banda);
     const fakeItem={...h,cultivo};
@@ -663,8 +696,8 @@ function recalc(){
     body.innerHTML='<div class="carrito-empty"><div class="ico">📋</div>Agregá híbridos desde la tabla de arriba</div>';
     descWrap.style.display='none';return;
   }
-  const dVolMaiz=getDescVolumen(totalBolsasCultivo('maiz'),'maiz');
-  const dVolGira=getDescVolumen(totalBolsasCultivo('gira'),'gira');
+  const dVolMaiz=getDescVolumenEfectivo("maiz");
+  const dVolGira=getDescVolumenEfectivo("gira");
   let subtotal=0;
   const items=carrito.map((item,i)=>{
     const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
@@ -713,8 +746,8 @@ function guardarCotizacion(){
   const precampaña=document.getElementById('sel-precampaña').value==='si';
   const crecer=document.getElementById('sel-crecer').value==='si';
   const cliente=document.getElementById('inp-cliente').value.trim();
-  const dVolMaiz=getDescVolumen(totalBolsasCultivo('maiz'),'maiz');
-  const dVolGira=getDescVolumen(totalBolsasCultivo('gira'),'gira');
+  const dVolMaiz=getDescVolumenEfectivo("maiz");
+  const dVolGira=getDescVolumenEfectivo("gira");
   let subtotal=0;
   const items=carrito.map(item=>{
     const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
@@ -737,8 +770,8 @@ function copiarWA(){
   const precampaña=document.getElementById('sel-precampaña').value==='si';
   const crecer=document.getElementById('sel-crecer').value==='si';
   const cliente=document.getElementById('inp-cliente').value.trim();
-  const dVolMaiz=getDescVolumen(totalBolsasCultivo('maiz'),'maiz');
-  const dVolGira=getDescVolumen(totalBolsasCultivo('gira'),'gira');
+  const dVolMaiz=getDescVolumenEfectivo("maiz");
+  const dVolGira=getDescVolumenEfectivo("gira");
   let subtotal=0;
   let txt='*Cotización Nidera — Cambá Agronegocios*\n';
   if(cliente)txt+=`Cliente: ${cliente}\n`;
@@ -925,6 +958,7 @@ function guardarConfig(){
   document.getElementById('footer-validez').textContent='hasta el '+cfg.validez;
   saveConfig();
   populatePago();
+  populateVolSelector();
   updateToggleUI();
   renderHibridos();
   showToast('✓ Configuración guardada');
@@ -936,6 +970,7 @@ function resetConfig(){
   saveConfig();
   descToggles={nidera:false,agrocamba:false};
   renderConfig();
+  populateVolSelector();
   renderHibridos();
   showToast('✓ Valores restaurados');
 }
@@ -949,6 +984,7 @@ function showToast(msg){
 // Init
 document.getElementById('footer-validez').textContent='hasta el '+cfg.validez;
 populatePago();
+populateVolSelector();
 updateToggleUI();
 renderHibridos();
 </script>
