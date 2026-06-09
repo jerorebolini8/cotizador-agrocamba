@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador Nidera — Cambá Agronegocios</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f3ee;--bg-card:#fff;--bg-sidebar:#1a1a18;
+  --text:#1a1a18;--text-muted:#6b6b60;--text-sidebar:#e8e6df;
+  --accent:#2d6a4f;--accent-light:#e8f4ee;--accent-border:#a7d5bc;
+  --warn:#b45309;--warn-light:#fef3c7;--warn-border:#f0c070;
+  --danger:#9b1c1c;--danger-light:#fde8e8;--danger-border:#f5b8b8;
+  --gold:#a67c00;--gold-light:#fdf6dc;--gold-border:#e8d07a;
+  --border:#dddbd3;--border-dark:#c8c6be;
+  --font:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:220px;min-height:100vh;background:var(--bg-sidebar);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;padding:0 0 1.5rem;}
+.sidebar-logo{padding:1.5rem 1.5rem 1.1rem;border-bottom:.5px solid rgba(255,255,255,.1);margin-bottom:.75rem;}
+.sidebar-logo .co{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#6b6b60;font-family:var(--mono);margin-bottom:4px;}
+.sidebar-logo .name{font-size:15px;font-weight:600;color:var(--text-sidebar);line-height:1.2;}
+.sidebar-logo .sub{font-size:12px;color:#8a8a7a;margin-top:2px;}
+.nav-s{padding:0 1rem;margin-bottom:.25rem;}
+.nav-lbl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#6b6b60;font-family:var(--mono);padding:0 .5rem;margin-bottom:.4rem;}
+.nav-btn{display:flex;align-items:center;gap:9px;width:100%;padding:8px 12px;border:none;background:transparent;color:#8a8a7a;font-family:var(--font);font-size:13px;cursor:pointer;border-radius:8px;text-align:left;transition:all .15s;margin-bottom:1px;}
+.nav-btn:hover{background:rgba(255,255,255,.07);color:var(--text-sidebar);}
+.nav-btn.active{background:rgba(255,255,255,.12);color:var(--text-sidebar);font-weight:500;}
+.nav-btn svg{width:15px;height:15px;flex-shrink:0;opacity:.7;}
+.nav-btn.active svg{opacity:1;}
+.sidebar-footer{margin-top:auto;padding:1rem 1.5rem 0;border-top:.5px solid rgba(255,255,255,.1);}
+.sidebar-footer .info{font-size:10px;color:#6b6b60;font-family:var(--mono);line-height:1.6;}
+.sidebar-footer .info span{color:#8a8a7a;}
+
+/* MAIN */
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{padding:1.5rem 2rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+.page-title{font-size:21px;font-weight:600;letter-spacing:-.3px;}
+.page-sub{font-size:13px;color:var(--text-muted);margin-top:2px;}
+.content{padding:1.25rem 2rem 3rem;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* CULTIVO TABS */
+.cultivo-tabs{display:flex;gap:8px;margin-bottom:1.25rem;}
+.ctab{flex:1;padding:9px 14px;font-size:13px;font-weight:500;font-family:var(--font);border-radius:8px;border:.5px solid var(--border-dark);background:var(--bg-card);color:var(--text-muted);cursor:pointer;transition:all .15s;text-align:center;}
+.ctab:hover{color:var(--text);}
+.ctab.active-maiz{background:#1a1a18;color:#fff;border-color:#1a1a18;}
+.ctab.active-gira{background:var(--gold-light);color:var(--gold);border-color:var(--gold-border);}
+
+/* SECTION */
+.section{background:var(--bg-card);border:.5px solid var(--border);border-radius:12px;margin-bottom:1rem;overflow:hidden;}
+.section-head{padding:.8rem 1.1rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.section-title{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);font-family:var(--mono);}
+.section-body{padding:.9rem 1.1rem;}
+
+/* TABLA HÍBRIDOS */
+table.htable{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;}
+table.htable thead th{background:#f9f8f5;padding:7px 10px;text-align:left;font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);font-family:var(--mono);border-bottom:.5px solid var(--border);}
+table.htable thead th.r{text-align:right;}
+table.htable thead th.c{text-align:center;}
+table.htable tbody td{padding:7px 10px;border-bottom:.5px solid var(--border);vertical-align:middle;}
+table.htable tbody tr:last-child td{border-bottom:none;}
+table.htable tbody tr:hover td{background:#fafaf8;}
+.h-name{font-weight:500;font-size:13px;}
+.h-sub{font-size:11px;color:var(--text-muted);margin-top:1px;}
+.h-warn{font-size:10.5px;color:var(--warn);margin-top:2px;}
+.badge-cl{display:inline-block;font-size:10px;font-family:var(--mono);padding:1px 6px;border-radius:20px;background:var(--warn-light);color:var(--warn);margin-left:5px;vertical-align:middle;}
+.precio-cell{text-align:right;font-family:var(--mono);font-size:13px;color:var(--text-muted);}
+.qty-cell{text-align:center;}
+.qty-cell input{width:60px;padding:4px 7px;font-size:13px;font-family:var(--mono);border:.5px solid var(--border-dark);border-radius:6px;background:var(--bg);color:var(--text);text-align:right;outline:none;}
+.qty-cell input:focus{border-color:var(--accent);}
+.add-cell{text-align:center;}
+.btn-add{padding:3px 10px;font-size:11px;font-family:var(--font);border-radius:6px;border:.5px solid var(--accent-border);background:transparent;color:var(--accent);cursor:pointer;transition:all .15s;}
+.btn-add:hover{background:var(--accent-light);}
+
+/* CONDICIONES GRID */
+.cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fg label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);font-family:var(--mono);}
+.fg select{padding:7px 9px;font-size:13px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:8px;background:var(--bg-card);color:var(--text);outline:none;cursor:pointer;}
+.fg select:focus{border-color:var(--accent);}
+.fg input[type=text]{padding:7px 9px;font-size:13px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:8px;background:var(--bg-card);color:var(--text);outline:none;}
+.fg input[type=text]:focus{border-color:var(--accent);}
+
+/* CARRITO */
+.carrito-empty{text-align:center;padding:2rem 1rem;color:var(--text-muted);font-size:13px;}
+.carrito-empty .ico{font-size:24px;margin-bottom:.5rem;opacity:.4;}
+.ci{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:.5px solid var(--border);}
+.ci:last-child{border-bottom:none;}
+.ci-name{font-size:13px;font-weight:500;}
+.ci-det{font-size:11px;color:var(--text-muted);font-family:var(--mono);margin-top:2px;}
+.ci-precio{font-family:var(--mono);font-size:13px;text-align:right;white-space:nowrap;}
+.ci-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;padding:2px 5px;line-height:1;transition:color .15s;}
+.ci-del:hover{color:var(--danger);}
+
+/* DESCUENTOS */
+.desc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.9rem;}
+.dtag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);padding:3px 9px;border-radius:20px;background:var(--accent-light);color:var(--accent);border:.5px solid var(--accent-border);}
+
+/* TOTAL */
+.total-block{background:var(--accent-light);border:.5px solid var(--accent-border);border-radius:10px;padding:.9rem 1.1rem;display:flex;justify-content:space-between;align-items:center;margin-top:.9rem;}
+.total-block .lbl{font-size:13px;color:var(--accent);font-weight:500;}
+.total-block .sub-lbl{font-size:11px;color:#4a9a74;font-family:var(--mono);margin-top:2px;}
+.total-block .num{font-size:24px;font-weight:600;font-family:var(--mono);color:var(--accent);}
+
+/* NOTAS */
+.nota-warn{background:var(--warn-light);border:.5px solid var(--warn-border);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--warn);margin-top:.75rem;}
+
+/* BOTONES ACCIÓN */
+.btn{padding:9px 18px;font-size:13px;font-weight:500;font-family:var(--font);border-radius:8px;cursor:pointer;transition:all .15s;}
+.btn-dark{background:var(--bg-sidebar);color:#fff;border:none;}
+.btn-dark:hover{opacity:.85;}
+.btn-dark:active{transform:scale(.98);}
+.btn-ghost{background:transparent;color:var(--text-muted);border:.5px solid var(--border-dark);}
+.btn-ghost:hover{background:var(--bg-card);color:var(--text);}
+.btn-row{display:flex;gap:9px;align-items:center;margin-top:1rem;flex-wrap:wrap;}
+.btn-export{padding:7px 13px;font-size:12px;font-family:var(--font);background:transparent;color:var(--text-muted);border:.5px solid var(--border-dark);border-radius:8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;}
+.btn-export:hover{background:var(--bg-card);color:var(--text);}
+
+/* HISTORIAL */
+.hist-list{background:var(--bg-card);border:.5px solid var(--border);border-radius:12px;overflow:hidden;}
+.hist-item{display:flex;align-items:center;gap:11px;padding:10px 15px;border-bottom:.5px solid var(--border);}
+.hist-item:last-child{border-bottom:none;}
+.hist-item:hover{background:#fafaf8;}
+.hist-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent);flex-shrink:0;font-family:var(--mono);}
+.hist-info{flex:1;min-width:0;}
+.hist-prod{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-det{font-size:11px;color:var(--text-muted);margin-top:1px;font-family:var(--mono);}
+.hist-r{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+.hist-total{font-size:13px;font-weight:600;font-family:var(--mono);color:var(--accent);}
+.hist-fecha{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
+.hist-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:2px 6px;margin-left:8px;}
+.hist-del:hover{color:var(--danger);}
+
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:13px;}
+.empty .ico{font-size:28px;margin-bottom:.5rem;opacity:.4;}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg-sidebar);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;font-family:var(--font);z-index:999;display:none;animation:fadeUp .2s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-thumb{background:var(--border-dark);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="co">Agrocamba</div>
+    <div class="name">Cotizador Nidera</div>
+    <div class="sub">Semillas · Campaña 26/27</div>
+  </div>
+  <div class="nav-s">
+    <div class="nav-lbl">Módulos</div>
+    <button class="nav-btn active" onclick="showTab('cotizar')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/><path d="M9 15h3l8.5-8.5a1.5 1.5 0 00-3-3L9 12v3"/></svg>
+      Armar cotización
+    </button>
+    <button class="nav-btn" onclick="showTab('historial')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Historial
+    </button>
+  </div>
+  <div class="sidebar-footer">
+    <div class="info">
+      Condiciones válidas<span>hasta el 30/06/2026</span>o hasta agotar stock
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <!-- COTIZAR -->
+  <div id="tab-cotizar" class="tab-content active">
+    <div class="topbar">
+      <div>
+        <div class="page-title">Nueva cotización</div>
+        <div class="page-sub">Seleccioná cultivo, híbridos y condiciones de pago</div>
+      </div>
+      <button class="btn-export" onclick="limpiarCotizacion()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+        Limpiar
+      </button>
+    </div>
+    <div class="content">
+
+      <!-- Cultivo tabs -->
+      <div class="cultivo-tabs">
+        <button class="ctab active-maiz" id="tab-maiz" onclick="setCultivo('maiz')">🌽 Maíz</button>
+        <button class="ctab" id="tab-gira" onclick="setCultivo('gira')">🌻 Girasol</button>
+      </div>
+
+      <!-- Condiciones -->
+      <div class="section">
+        <div class="section-head"><div class="section-title">Condiciones comerciales</div></div>
+        <div class="section-body">
+          <div class="cond-grid">
+            <div class="fg">
+              <label>Banda</label>
+              <select id="sel-banda" onchange="renderHibridos();recalc()">
+                <option value="1">Banda 1 — R2/R2E · G0-G2</option>
+                <option value="2">Banda 2 — C2/C2E · G3</option>
+                <option value="3">Banda 3 — C3/R3/C4/R4 (solo maíz)</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Forma de pago</label>
+              <select id="sel-pago" onchange="recalc()">
+                <option value="pagare">Pagaré — 0%</option>
+                <option value="contado">Contado / transferencia — −8%</option>
+                <option value="fwd_corto">Canje FWD Dic26/Ene27 — −3%</option>
+                <option value="fwd_cosecha">Canje FWD Cosecha 2027 — −3%</option>
+                <option value="avc">Canje Dispo AVC girasol — −12%</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Descuento pre-campaña</label>
+              <select id="sel-precampaña" onchange="recalc()">
+                <option value="si">Sí, aplica</option>
+                <option value="no">No aplica</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Plan Crecer (+20% vol.)</label>
+              <select id="sel-crecer" onchange="recalc()">
+                <option value="no">No aplica</option>
+                <option value="si">Sí — +2,5% adicional</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Híbridos -->
+      <div class="section">
+        <div class="section-head"><div class="section-title" id="hibridos-title">Híbridos · Maíz</div></div>
+        <table class="htable">
+          <thead>
+            <tr>
+              <th style="width:42%">Híbrido</th>
+              <th class="r" style="width:16%">Lista banda</th>
+              <th class="r" style="width:18%">Precio c/desc.</th>
+              <th class="c" style="width:12%">Bolsas</th>
+              <th class="c" style="width:12%">Agregar</th>
+            </tr>
+          </thead>
+          <tbody id="hibridos-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Carrito + Resultado -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Cotización</div>
+          <div id="cliente-wrap" style="display:flex;align-items:center;gap:8px;">
+            <input type="text" id="inp-cliente" placeholder="Nombre del productor (opcional)" style="padding:5px 9px;font-size:12px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:7px;background:var(--bg);color:var(--text);outline:none;width:220px;">
+          </div>
+        </div>
+        <div class="section-body">
+          <div id="carrito-body"><div class="carrito-empty"><div class="ico">📋</div>Agregá híbridos desde la tabla de arriba</div></div>
+          <div id="desc-wrap" style="display:none;">
+            <div class="desc-tags" id="desc-tags"></div>
+            <div class="total-block">
+              <div>
+                <div class="lbl">Total cotización</div>
+                <div class="sub-lbl" id="total-sub"></div>
+              </div>
+              <div class="num" id="total-num">USD 0</div>
+            </div>
+            <div id="notas-warn"></div>
+            <div class="btn-row">
+              <button class="btn btn-dark" onclick="guardarCotizacion()">Guardar en historial</button>
+              <button class="btn btn-ghost" onclick="copiarWA()">Copiar para WhatsApp</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div id="tab-historial" class="tab-content">
+    <div class="topbar">
+      <div><div class="page-title">Historial de cotizaciones</div><div class="page-sub">Cotizaciones guardadas</div></div>
+      <button class="btn-export" onclick="limpiarHistorial()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+        Limpiar todo
+      </button>
+    </div>
+    <div class="content">
+      <div id="hist-body"></div>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const MAIZ=[
+  {id:'ns7852',nombre:'NS7852 Viptera3',b1:260,b2:249.6,b3:239.2,cl:false,pc:8,nota:null},
+  {id:'ns7765',nombre:'NS7765 Viptera3',b1:250,b2:240,b3:230,cl:false,pc:6,nota:null},
+  {id:'ns7925',nombre:'NS7925 Viptera3',b1:245,b2:235.2,b3:225.4,cl:false,pc:8,nota:null},
+  {id:'ns7621',nombre:'NS7621 Viptera3',b1:245,b2:235.2,b3:225.4,cl:false,pc:8,nota:null},
+  {id:'ax7761',nombre:'AX7761 VT3P',b1:240,b2:230.4,b3:220.8,cl:false,pc:6,nota:null},
+  {id:'ns7921',nombre:'NS7921 Viptera3CL',b1:240,b2:230.4,b3:220.8,cl:true,pc:8,nota:'Fuera de estándar — susceptible a glifosato entre 2-5% de plantas. Puede tener descuento adicional.'},
+  {id:'ns7624',nombre:'NS7624 Viptera3CL',b1:235,b2:225.6,b3:216.2,cl:true,pc:8,nota:null},
+  {id:'ax7784',nombre:'AX7784 VT3P',b1:215,b2:206.4,b3:197.8,cl:false,pc:8,nota:null},
+  {id:'ns7818',nombre:'NS7818 Viptera3',b1:200,b2:192,b3:184,cl:false,pc:8,nota:null},
+  {id:'ss2223',nombre:'SS2223S VIP 3',b1:185,b2:177.6,b3:170.2,cl:false,pc:8,nota:'Bolsas de 60.000 semillas'},
+  {id:'ns7800',nombre:'NS7800 TGCL',b1:165,b2:158.4,b3:151.8,cl:true,pc:8,nota:null},
+];
+const GIRA=[
+  {id:'ns1227',nombre:'NS1227CLHO',b1:385,b2:365.75,b3:null,cl:true,pc:0,nota:null},
+  {id:'ns1113',nombre:'NS1113CL',b1:375,b2:356.35,b3:null,cl:true,pc:2,nota:null},
+  {id:'ns1117',nombre:'NS1117CL',b1:345,b2:327.75,b3:null,cl:true,pc:2,nota:null},
+  {id:'ns1115',nombre:'NS1115CL',b1:315,b2:299.25,b3:null,cl:true,pc:2,nota:null},
+];
+const PAGO_DESC={pagare:0,contado:8,fwd_corto:3,fwd_cosecha:3,avc:12};
+const PAGO_LABEL={pagare:'Pagaré',contado:'Contado −8%',fwd_corto:'Canje FWD Dic26/Ene27 −3%',fwd_cosecha:'Canje FWD Cosecha 2027 −3%',avc:'Canje Dispo AVC −12%'};
+
+let cultivo='maiz';
+let carrito=[];
+let historial=JSON.parse(localStorage.getItem('cot_hist')||'[]');
+
+function showTab(t){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  const tabs=['cotizar','historial'];
+  document.querySelectorAll('.nav-btn')[tabs.indexOf(t)].classList.add('active');
+  if(t==='historial')renderHistorial();
+}
+
+function setCultivo(c){
+  cultivo=c;
+  document.getElementById('tab-maiz').className='ctab'+(c==='maiz'?' active-maiz':'');
+  document.getElementById('tab-gira').className='ctab'+(c==='gira'?' active-gira':'');
+  const b3opt=document.querySelector('#sel-banda option[value="3"]');
+  b3opt.disabled=(c==='gira');
+  if(c==='gira'&&document.getElementById('sel-banda').value==='3')document.getElementById('sel-banda').value='1';
+  document.getElementById('hibridos-title').textContent='Híbridos · '+(c==='maiz'?'Maíz':'Girasol');
+  renderHibridos();
+  recalc();
+}
+
+function getPrecioLista(h,banda){
+  if(banda===1)return h.b1;
+  if(banda===2)return h.b2;
+  return h.b3!=null?h.b3:h.b1;
+}
+
+function calcDesc(h){
+  const pago=document.getElementById('sel-pago').value;
+  const precampaña=document.getElementById('sel-precampaña').value==='si';
+  const crecer=document.getElementById('sel-crecer').value==='si';
+  let d=0;
+  if(precampaña)d+=h.pc||0;
+  const dp=(cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
+  d+=dp;
+  if(crecer)d+=2.5;
+  return d;
+}
+
+function renderHibridos(){
+  const lista=cultivo==='maiz'?MAIZ:GIRA;
+  const banda=parseInt(document.getElementById('sel-banda').value);
+  const body=document.getElementById('hibridos-body');
+  body.innerHTML=lista.map(h=>{
+    const lista_precio=getPrecioLista(h,banda);
+    const d=calcDesc(h);
+    const pf=lista_precio*(1-d/100);
+    return`<tr>
+      <td>
+        <div class="h-name">${h.nombre}${h.cl?'<span class="badge-cl">CL</span>':''}</div>
+        ${h.nota?`<div class="h-warn">⚠ ${h.nota}</div>`:''}
+      </td>
+      <td class="precio-cell">USD ${lista_precio.toFixed(2)}</td>
+      <td class="precio-cell" style="color:var(--accent);font-weight:500;">USD ${pf.toFixed(2)}</td>
+      <td class="qty-cell"><input type="number" min="1" step="1" value="1" id="qty-${h.id}"></td>
+      <td class="add-cell"><button class="btn-add" onclick="agregarItem('${h.id}')">+ Agregar</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function agregarItem(id){
+  const lista=cultivo==='maiz'?MAIZ:GIRA;
+  const h=lista.find(x=>x.id===id);
+  if(!h)return;
+  const banda=parseInt(document.getElementById('sel-banda').value);
+  const qty=parseInt(document.getElementById('qty-'+id).value)||1;
+  const lista_precio=getPrecioLista(h,banda);
+  const existing=carrito.find(x=>x.id===id&&x.cultivo===cultivo&&x.banda===banda);
+  if(existing){existing.qty+=qty;}
+  else{carrito.push({id,cultivo,nombre:h.nombre,cl:h.cl,nota:h.nota,pc:h.pc,banda,lista_precio,qty});}
+  recalc();
+  showToast('✓ '+h.nombre+' agregado');
+}
+
+function quitarItem(idx){carrito.splice(idx,1);recalc();}
+
+function recalc(){
+  renderHibridos();
+  const pago=document.getElementById('sel-pago').value;
+  const precampaña=document.getElementById('sel-precampaña').value==='si';
+  const crecer=document.getElementById('sel-crecer').value==='si';
+  const body=document.getElementById('carrito-body');
+  const descWrap=document.getElementById('desc-wrap');
+
+  if(!carrito.length){
+    body.innerHTML='<div class="carrito-empty"><div class="ico">📋</div>Agregá híbridos desde la tabla de arriba</div>';
+    descWrap.style.display='none';
+    return;
+  }
+
+  let subtotal=0;
+  const items=carrito.map((item,i)=>{
+    let d=0;
+    if(precampaña)d+=item.pc||0;
+    const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
+    d+=dp;
+    if(crecer)d+=2.5;
+    const pf=item.lista_precio*(1-d/100);
+    const total=pf*item.qty;
+    subtotal+=total;
+    return{...item,d,pf,total};
+  });
+
+  body.innerHTML=items.map((item,i)=>`
+    <div class="ci">
+      <div>
+        <div class="ci-name">${item.nombre}${item.cl?'<span class="badge-cl">CL</span>':''}</div>
+        <div class="ci-det">${item.qty} bolsa${item.qty>1?'s':''} × USD ${item.pf.toFixed(2)} (−${item.d.toFixed(1)}%) · Banda ${item.banda}</div>
+      </div>
+      <div class="ci-precio">USD ${item.total.toFixed(2)}</div>
+      <button class="ci-del" onclick="quitarItem(${i})">×</button>
+    </div>
+  `).join('');
+
+  // Tags de descuento
+  let tags=[];
+  const dp=PAGO_DESC[pago]||0;
+  if(precampaña)tags.push('Pre-campaña (variable por híbrido)');
+  if(dp)tags.push(PAGO_LABEL[pago]);
+  if(crecer)tags.push('Plan Crecer −2,5%');
+  document.getElementById('desc-tags').innerHTML=tags.length?tags.map(t=>`<span class="dtag">✓ ${t}</span>`).join(''):'<span style="font-size:12px;color:var(--text-muted);">Sin descuentos adicionales</span>';
+
+  document.getElementById('total-num').textContent='USD '+subtotal.toFixed(2);
+  document.getElementById('total-sub').textContent=carrito.reduce((a,b)=>a+b.qty,0)+' bolsa(s) en total';
+
+  // Notas
+  const notas=items.filter(x=>x.nota).map(x=>`<div class="nota-warn">⚠ <strong>${x.nombre}:</strong> ${x.nota}</div>`).join('');
+  document.getElementById('notas-warn').innerHTML=notas;
+
+  descWrap.style.display='block';
+}
+
+function guardarCotizacion(){
+  if(!carrito.length){showToast('No hay items en la cotización');return;}
+  const pago=document.getElementById('sel-pago').value;
+  const precampaña=document.getElementById('sel-precampaña').value==='si';
+  const crecer=document.getElementById('sel-crecer').value==='si';
+  const cliente=document.getElementById('inp-cliente').value.trim();
+
+  let subtotal=0;
+  const items=carrito.map(item=>{
+    let d=0;
+    if(precampaña)d+=item.pc||0;
+    const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
+    d+=dp;
+    if(crecer)d+=2.5;
+    const pf=item.lista_precio*(1-d/100);
+    const total=pf*item.qty;
+    subtotal+=total;
+    return{...item,d,pf,total};
+  });
+
+  const now=new Date();
+  const fecha=now.toLocaleDateString('es-AR')+' '+now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+  historial.unshift({id:Date.now(),fecha,cliente:cliente||'—',pago:PAGO_LABEL[pago],items,subtotal});
+  localStorage.setItem('cot_hist',JSON.stringify(historial));
+  showToast('✓ Cotización guardada');
+}
+
+function copiarWA(){
+  if(!carrito.length){showToast('No hay items en la cotización');return;}
+  const pago=document.getElementById('sel-pago').value;
+  const precampaña=document.getElementById('sel-precampaña').value==='si';
+  const crecer=document.getElementById('sel-crecer').value==='si';
+  const cliente=document.getElementById('inp-cliente').value.trim();
+  let subtotal=0;
+  let txt='*Cotización Nidera — Cambá Agronegocios*\n';
+  if(cliente)txt+=`Cliente: ${cliente}\n`;
+  txt+=`Pago: ${PAGO_LABEL[pago]}\n\n`;
+  carrito.forEach(item=>{
+    let d=0;
+    if(precampaña)d+=item.pc||0;
+    const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
+    d+=dp;
+    if(crecer)d+=2.5;
+    const pf=item.lista_precio*(1-d/100);
+    const total=pf*item.qty;
+    subtotal+=total;
+    txt+=`• ${item.nombre}: ${item.qty} bolsa${item.qty>1?'s':''} × USD ${pf.toFixed(2)} = *USD ${total.toFixed(2)}*\n`;
+  });
+  txt+=`\n*Total: USD ${subtotal.toFixed(2)}*\n`;
+  txt+=`_Válido hasta 30/06/2026 o hasta agotar stock_`;
+  navigator.clipboard.writeText(txt).then(()=>showToast('✓ Copiado al portapapeles')).catch(()=>showToast('No se pudo copiar'));
+}
+
+function limpiarCotizacion(){
+  if(!carrito.length)return;
+  if(!confirm('¿Limpiar la cotización actual?'))return;
+  carrito=[];recalc();
+  document.getElementById('inp-cliente').value='';
+  showToast('Cotización limpiada');
+}
+
+function renderHistorial(){
+  const el=document.getElementById('hist-body');
+  if(!historial.length){el.innerHTML='<div class="empty"><div class="ico">📋</div>No hay cotizaciones guardadas todavía.</div>';return;}
+  el.innerHTML='<div class="hist-list">'+historial.map((c,i)=>{
+    const ini=c.cliente&&c.cliente!=='—'?c.cliente.slice(0,2).toUpperCase():'CT';
+    return`<div class="hist-item">
+      <div class="hist-avatar">${ini}</div>
+      <div class="hist-info">
+        <div class="hist-prod">${c.cliente&&c.cliente!=='—'?c.cliente:'Sin nombre'}</div>
+        <div class="hist-det">${c.fecha} · ${c.items.length} híbrido${c.items.length>1?'s':''} · ${c.pago}</div>
+      </div>
+      <div class="hist-r">
+        <div class="hist-total">USD ${c.subtotal.toFixed(2)}</div>
+        <div class="hist-fecha">${c.items.reduce((a,b)=>a+b.qty,0)} bolsas</div>
+      </div>
+      <button class="hist-del" onclick="eliminarHist(${i})" title="Eliminar">×</button>
+    </div>`;
+  }).join('')+'</div>';
+}
+
+function eliminarHist(i){
+  historial.splice(i,1);
+  localStorage.setItem('cot_hist',JSON.stringify(historial));
+  renderHistorial();
+  showToast('Cotización eliminada');
+}
+
+function limpiarHistorial(){
+  if(!historial.length)return;
+  if(!confirm('¿Borrar todo el historial?'))return;
+  historial=[];
+  localStorage.setItem('cot_hist',JSON.stringify(historial));
+  renderHistorial();
+  showToast('Historial limpiado');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.display='block';
+  clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2800);
+}
+
+// Init
+renderHibridos();
+</script>
+</body>
+</html>
