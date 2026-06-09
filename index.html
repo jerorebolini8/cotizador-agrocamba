@@ -59,7 +59,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 .section-title{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);font-family:var(--mono);}
 .section-body{padding:.9rem 1.1rem;}
 
-/* TABLA HÍBRIDOS */
+/* TABLA */
 table.htable{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;}
 table.htable thead th{background:#f9f8f5;padding:7px 10px;text-align:left;font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);font-family:var(--mono);border-bottom:.5px solid var(--border);}
 table.htable thead th.r{text-align:right;}
@@ -68,7 +68,6 @@ table.htable tbody td{padding:7px 10px;border-bottom:.5px solid var(--border);ve
 table.htable tbody tr:last-child td{border-bottom:none;}
 table.htable tbody tr:hover td{background:#fafaf8;}
 .h-name{font-weight:500;font-size:13px;}
-.h-sub{font-size:11px;color:var(--text-muted);margin-top:1px;}
 .h-warn{font-size:10.5px;color:var(--warn);margin-top:2px;}
 .badge-cl{display:inline-block;font-size:10px;font-family:var(--mono);padding:1px 6px;border-radius:20px;background:var(--warn-light);color:var(--warn);margin-left:5px;vertical-align:middle;}
 .precio-cell{text-align:right;font-family:var(--mono);font-size:13px;color:var(--text-muted);}
@@ -79,14 +78,12 @@ table.htable tbody tr:hover td{background:#fafaf8;}
 .btn-add{padding:3px 10px;font-size:11px;font-family:var(--font);border-radius:6px;border:.5px solid var(--accent-border);background:transparent;color:var(--accent);cursor:pointer;transition:all .15s;}
 .btn-add:hover{background:var(--accent-light);}
 
-/* CONDICIONES GRID */
+/* FORM */
 .cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .fg{display:flex;flex-direction:column;gap:4px;}
 .fg label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);font-family:var(--mono);}
-.fg select{padding:7px 9px;font-size:13px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:8px;background:var(--bg-card);color:var(--text);outline:none;cursor:pointer;}
-.fg select:focus{border-color:var(--accent);}
-.fg input[type=text]{padding:7px 9px;font-size:13px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:8px;background:var(--bg-card);color:var(--text);outline:none;}
-.fg input[type=text]:focus{border-color:var(--accent);}
+.fg select,.fg input[type=text]{padding:7px 9px;font-size:13px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:8px;background:var(--bg-card);color:var(--text);outline:none;}
+.fg select:focus,.fg input[type=text]:focus{border-color:var(--accent);}
 
 /* CARRITO */
 .carrito-empty{text-align:center;padding:2rem 1rem;color:var(--text-muted);font-size:13px;}
@@ -99,7 +96,7 @@ table.htable tbody tr:hover td{background:#fafaf8;}
 .ci-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;padding:2px 5px;line-height:1;transition:color .15s;}
 .ci-del:hover{color:var(--danger);}
 
-/* DESCUENTOS */
+/* DESCUENTOS TAGS */
 .desc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.9rem;}
 .dtag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);padding:3px 9px;border-radius:20px;background:var(--accent-light);color:var(--accent);border:.5px solid var(--accent-border);}
 
@@ -108,11 +105,9 @@ table.htable tbody tr:hover td{background:#fafaf8;}
 .total-block .lbl{font-size:13px;color:var(--accent);font-weight:500;}
 .total-block .sub-lbl{font-size:11px;color:#4a9a74;font-family:var(--mono);margin-top:2px;}
 .total-block .num{font-size:24px;font-weight:600;font-family:var(--mono);color:var(--accent);}
-
-/* NOTAS */
 .nota-warn{background:var(--warn-light);border:.5px solid var(--warn-border);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--warn);margin-top:.75rem;}
 
-/* BOTONES ACCIÓN */
+/* BOTONES */
 .btn{padding:9px 18px;font-size:13px;font-weight:500;font-family:var(--font);border-radius:8px;cursor:pointer;transition:all .15s;}
 .btn-dark{background:var(--bg-sidebar);color:#fff;border:none;}
 .btn-dark:hover{opacity:.85;}
@@ -122,6 +117,12 @@ table.htable tbody tr:hover td{background:#fafaf8;}
 .btn-row{display:flex;gap:9px;align-items:center;margin-top:1rem;flex-wrap:wrap;}
 .btn-export{padding:7px 13px;font-size:12px;font-family:var(--font);background:transparent;color:var(--text-muted);border:.5px solid var(--border-dark);border-radius:8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;}
 .btn-export:hover{background:var(--bg-card);color:var(--text);}
+.btn-sm{padding:3px 9px;font-size:11px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .15s;border:.5px solid var(--border-dark);background:transparent;color:var(--text-muted);}
+.btn-sm:hover{color:var(--text);}
+.btn-sm-danger{color:var(--danger);border-color:var(--danger-border);}
+.btn-sm-danger:hover{background:var(--danger-light);}
+.btn-sm-accent{color:var(--accent);border-color:var(--accent-border);}
+.btn-sm-accent:hover{background:var(--accent-light);}
 
 /* HISTORIAL */
 .hist-list{background:var(--bg-card);border:.5px solid var(--border);border-radius:12px;overflow:hidden;}
@@ -138,9 +139,39 @@ table.htable tbody tr:hover td{background:#fafaf8;}
 .hist-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:2px 6px;margin-left:8px;}
 .hist-del:hover{color:var(--danger);}
 
+/* CONFIG */
+.cfg-section{background:var(--bg-card);border:.5px solid var(--border);border-radius:12px;margin-bottom:1rem;overflow:hidden;}
+.cfg-head{padding:.8rem 1.1rem;border-bottom:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cfg-title{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);font-family:var(--mono);}
+.cfg-body{padding:.9rem 1.1rem;}
+.cfg-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:.5px solid var(--border);}
+.cfg-row:last-child{border-bottom:none;}
+.cfg-row-label{flex:1;font-size:13px;color:var(--text);}
+.cfg-row-sub{font-size:11px;color:var(--text-muted);font-family:var(--mono);margin-top:1px;}
+.cfg-input{width:80px;padding:5px 8px;font-size:13px;font-family:var(--mono);border:.5px solid var(--border-dark);border-radius:6px;background:var(--bg);color:var(--text);text-align:right;outline:none;}
+.cfg-input:focus{border-color:var(--accent);}
+.cfg-unit{font-size:12px;color:var(--text-muted);font-family:var(--mono);width:16px;}
+.vol-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.vol-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:.5px solid var(--border);}
+.vol-row:last-child{border-bottom:none;}
+.vol-tramo{flex:1;font-size:12px;font-family:var(--mono);color:var(--text-muted);}
+.prod-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid var(--border);}
+.prod-item:last-child{border-bottom:none;}
+.prod-item-info{flex:1;min-width:0;}
+.prod-item-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.prod-item-sub{font-size:11px;color:var(--text-muted);font-family:var(--mono);margin-top:1px;}
+.prod-precios{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.prod-precios input{width:70px;padding:4px 7px;font-size:12px;font-family:var(--mono);border:.5px solid var(--border-dark);border-radius:6px;background:var(--bg);color:var(--text);text-align:right;outline:none;}
+.prod-precios input:focus{border-color:var(--accent);}
+.prod-precios .pl{font-size:10px;color:var(--text-muted);font-family:var(--mono);}
+.add-prod-form{background:#f9f8f5;border:.5px solid var(--border);border-radius:10px;padding:.9rem 1rem;margin-top:.75rem;}
+.add-prod-form .fg-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.add-prod-form .fg{flex:1;min-width:120px;}
+.add-prod-form input,.add-prod-form select{padding:6px 9px;font-size:13px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:7px;background:#fff;color:var(--text);outline:none;width:100%;}
+.add-prod-form input:focus,.add-prod-form select:focus{border-color:var(--accent);}
+
 .empty{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:13px;}
 .empty .ico{font-size:28px;margin-bottom:.5rem;opacity:.4;}
-
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg-sidebar);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;font-family:var(--font);z-index:999;display:none;animation:fadeUp .2s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 ::-webkit-scrollbar{width:6px;}
@@ -165,11 +196,13 @@ table.htable tbody tr:hover td{background:#fafaf8;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       Historial
     </button>
+    <button class="nav-btn" onclick="showTab('config')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Configuración
+    </button>
   </div>
   <div class="sidebar-footer">
-    <div class="info">
-      Condiciones válidas<span>hasta el 30/06/2026</span>o hasta agotar stock
-    </div>
+    <div class="info">Condiciones válidas<span id="footer-validez">hasta el 30/06/2026</span>o hasta agotar stock</div>
   </div>
 </aside>
 
@@ -178,24 +211,17 @@ table.htable tbody tr:hover td{background:#fafaf8;}
   <!-- COTIZAR -->
   <div id="tab-cotizar" class="tab-content active">
     <div class="topbar">
-      <div>
-        <div class="page-title">Nueva cotización</div>
-        <div class="page-sub">Seleccioná cultivo, híbridos y condiciones de pago</div>
-      </div>
+      <div><div class="page-title">Nueva cotización</div><div class="page-sub">Seleccioná cultivo, híbridos y condiciones de pago</div></div>
       <button class="btn-export" onclick="limpiarCotizacion()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
         Limpiar
       </button>
     </div>
     <div class="content">
-
-      <!-- Cultivo tabs -->
       <div class="cultivo-tabs">
         <button class="ctab active-maiz" id="tab-maiz" onclick="setCultivo('maiz')">🌽 Maíz</button>
         <button class="ctab" id="tab-gira" onclick="setCultivo('gira')">🌻 Girasol</button>
       </div>
-
-      <!-- Condiciones -->
       <div class="section">
         <div class="section-head"><div class="section-title">Condiciones comerciales</div></div>
         <div class="section-body">
@@ -212,10 +238,10 @@ table.htable tbody tr:hover td{background:#fafaf8;}
               <label>Forma de pago</label>
               <select id="sel-pago" onchange="recalc()">
                 <option value="pagare">Pagaré — 0%</option>
-                <option value="contado">Contado / transferencia — −8%</option>
-                <option value="fwd_corto">Canje FWD Dic26/Ene27 — −3%</option>
-                <option value="fwd_cosecha">Canje FWD Cosecha 2027 — −3%</option>
-                <option value="avc">Canje Dispo AVC girasol — −12%</option>
+                <option value="contado">Contado / transferencia</option>
+                <option value="fwd_corto">Canje FWD Dic26/Ene27</option>
+                <option value="fwd_cosecha">Canje FWD Cosecha 2027</option>
+                <option value="avc">Canje Dispo AVC girasol</option>
               </select>
             </div>
             <div class="fg">
@@ -229,37 +255,29 @@ table.htable tbody tr:hover td{background:#fafaf8;}
               <label>Plan Crecer (+20% vol.)</label>
               <select id="sel-crecer" onchange="recalc()">
                 <option value="no">No aplica</option>
-                <option value="si">Sí — +2,5% adicional</option>
+                <option value="si">Sí — aplica</option>
               </select>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Híbridos -->
       <div class="section">
         <div class="section-head"><div class="section-title" id="hibridos-title">Híbridos · Maíz</div></div>
         <table class="htable">
-          <thead>
-            <tr>
-              <th style="width:42%">Híbrido</th>
-              <th class="r" style="width:16%">Lista banda</th>
-              <th class="r" style="width:18%">Precio c/desc.</th>
-              <th class="c" style="width:12%">Bolsas</th>
-              <th class="c" style="width:12%">Agregar</th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th style="width:40%">Híbrido</th>
+            <th class="r" style="width:16%">Lista banda</th>
+            <th class="r" style="width:18%">Precio c/desc.</th>
+            <th class="c" style="width:13%">Bolsas</th>
+            <th class="c" style="width:13%">Agregar</th>
+          </tr></thead>
           <tbody id="hibridos-body"></tbody>
         </table>
       </div>
-
-      <!-- Carrito + Resultado -->
       <div class="section">
         <div class="section-head">
           <div class="section-title">Cotización</div>
-          <div id="cliente-wrap" style="display:flex;align-items:center;gap:8px;">
-            <input type="text" id="inp-cliente" placeholder="Nombre del productor (opcional)" style="padding:5px 9px;font-size:12px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:7px;background:var(--bg);color:var(--text);outline:none;width:220px;">
-          </div>
+          <input type="text" id="inp-cliente" placeholder="Nombre del productor (opcional)" style="padding:5px 9px;font-size:12px;font-family:var(--font);border:.5px solid var(--border-dark);border-radius:7px;background:var(--bg);color:var(--text);outline:none;width:230px;">
         </div>
         <div class="section-body">
           <div id="carrito-body"><div class="carrito-empty"><div class="ico">📋</div>Agregá híbridos desde la tabla de arriba</div></div>
@@ -280,7 +298,6 @@ table.htable tbody tr:hover td{background:#fafaf8;}
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -293,74 +310,234 @@ table.htable tbody tr:hover td{background:#fafaf8;}
         Limpiar todo
       </button>
     </div>
+    <div class="content"><div id="hist-body"></div></div>
+  </div>
+
+  <!-- CONFIG -->
+  <div id="tab-config" class="tab-content">
+    <div class="topbar">
+      <div><div class="page-title">Configuración</div><div class="page-sub">Precios, descuentos y volúmenes — todo editable</div></div>
+      <button class="btn btn-dark" onclick="guardarConfig()">Guardar cambios</button>
+    </div>
     <div class="content">
-      <div id="hist-body"></div>
+
+      <!-- Descuentos de pago -->
+      <div class="cfg-section">
+        <div class="cfg-head"><div class="cfg-title">Descuentos por forma de pago</div></div>
+        <div class="cfg-body">
+          <div class="cfg-row">
+            <div class="cfg-row-label">Pagaré<div class="cfg-row-sub">Financiación en dólares — solo productor</div></div>
+            <input class="cfg-input" id="cfg-pagare" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Contado / transferencia</div>
+            <input class="cfg-input" id="cfg-contado" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Canje FWD Dic26/Ene27</div>
+            <input class="cfg-input" id="cfg-fwd_corto" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Canje FWD Cosecha 2027</div>
+            <input class="cfg-input" id="cfg-fwd_cosecha" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Canje Dispo AVC<div class="cfg-row-sub">Solo pedidos de girasol</div></div>
+            <input class="cfg-input" id="cfg-avc" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Descuentos especiales -->
+      <div class="cfg-section">
+        <div class="cfg-head"><div class="cfg-title">Descuentos especiales</div></div>
+        <div class="cfg-body">
+          <div class="cfg-row">
+            <div class="cfg-row-label">Plan Crecer<div class="cfg-row-sub">Aplica si supera +20% volumen vs 2025</div></div>
+            <input class="cfg-input" id="cfg-crecer" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Pre-campaña NS7765 Viptera3 / AX7761 VT3P</div>
+            <input class="cfg-input" id="cfg-pc-especial" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Pre-campaña resto de maíz</div>
+            <input class="cfg-input" id="cfg-pc-maiz" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Pre-campaña NS1227CLHO (girasol)</div>
+            <input class="cfg-input" id="cfg-pc-ns1227" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-row-label">Pre-campaña resto de girasol</div>
+            <input class="cfg-input" id="cfg-pc-gira" type="number" step="0.1" min="0">
+            <span class="cfg-unit">%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Volumen maíz -->
+      <div class="cfg-section">
+        <div class="cfg-head"><div class="cfg-title">Descuento por volumen · Maíz (bolsas)</div></div>
+        <div class="cfg-body">
+          <div id="cfg-vol-maiz"></div>
+        </div>
+      </div>
+
+      <!-- Volumen girasol -->
+      <div class="cfg-section">
+        <div class="cfg-head"><div class="cfg-title">Descuento por volumen · Girasol (bolsas)</div></div>
+        <div class="cfg-body">
+          <div id="cfg-vol-gira"></div>
+        </div>
+      </div>
+
+      <!-- Lista de precios maíz -->
+      <div class="cfg-section">
+        <div class="cfg-head">
+          <div class="cfg-title">Lista de precios · Maíz (USD por bolsa)</div>
+          <button class="btn-sm btn-sm-accent" onclick="mostrarAgregarProd('maiz')">+ Agregar híbrido</button>
+        </div>
+        <div class="cfg-body">
+          <div id="cfg-precios-maiz"></div>
+          <div id="form-add-maiz" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- Lista de precios girasol -->
+      <div class="cfg-section">
+        <div class="cfg-head">
+          <div class="cfg-title">Lista de precios · Girasol (USD por bolsa)</div>
+          <button class="btn-sm btn-sm-accent" onclick="mostrarAgregarProd('gira')">+ Agregar híbrido</button>
+        </div>
+        <div class="cfg-body">
+          <div id="cfg-precios-gira"></div>
+          <div id="form-add-gira" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- Fecha validez -->
+      <div class="cfg-section">
+        <div class="cfg-head"><div class="cfg-title">Fecha de validez</div></div>
+        <div class="cfg-body">
+          <div class="cfg-row">
+            <div class="cfg-row-label">Válido hasta</div>
+            <input type="text" id="cfg-validez" placeholder="ej: 30/06/2026" style="padding:6px 9px;font-size:13px;font-family:var(--mono);border:.5px solid var(--border-dark);border-radius:7px;background:var(--bg);color:var(--text);outline:none;width:160px;">
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:.5rem;">
+        <button class="btn btn-dark" onclick="guardarConfig()">Guardar todos los cambios</button>
+        <button class="btn btn-ghost" onclick="resetConfig()">Restaurar valores Nidera</button>
+      </div>
     </div>
   </div>
 
 </main>
-
 <div class="toast" id="toast"></div>
 
 <script>
-const MAIZ=[
-  {id:'ns7852',nombre:'NS7852 Viptera3',b1:260,b2:249.6,b3:239.2,cl:false,pc:8,nota:null},
-  {id:'ns7765',nombre:'NS7765 Viptera3',b1:250,b2:240,b3:230,cl:false,pc:6,nota:null},
-  {id:'ns7925',nombre:'NS7925 Viptera3',b1:245,b2:235.2,b3:225.4,cl:false,pc:8,nota:null},
-  {id:'ns7621',nombre:'NS7621 Viptera3',b1:245,b2:235.2,b3:225.4,cl:false,pc:8,nota:null},
-  {id:'ax7761',nombre:'AX7761 VT3P',b1:240,b2:230.4,b3:220.8,cl:false,pc:6,nota:null},
-  {id:'ns7921',nombre:'NS7921 Viptera3CL',b1:240,b2:230.4,b3:220.8,cl:true,pc:8,nota:'Fuera de estándar — susceptible a glifosato entre 2-5% de plantas. Puede tener descuento adicional.'},
-  {id:'ns7624',nombre:'NS7624 Viptera3CL',b1:235,b2:225.6,b3:216.2,cl:true,pc:8,nota:null},
-  {id:'ax7784',nombre:'AX7784 VT3P',b1:215,b2:206.4,b3:197.8,cl:false,pc:8,nota:null},
-  {id:'ns7818',nombre:'NS7818 Viptera3',b1:200,b2:192,b3:184,cl:false,pc:8,nota:null},
-  {id:'ss2223',nombre:'SS2223S VIP 3',b1:185,b2:177.6,b3:170.2,cl:false,pc:8,nota:'Bolsas de 60.000 semillas'},
-  {id:'ns7800',nombre:'NS7800 TGCL',b1:165,b2:158.4,b3:151.8,cl:true,pc:8,nota:null},
-];
-const GIRA=[
-  {id:'ns1227',nombre:'NS1227CLHO',b1:385,b2:365.75,b3:null,cl:true,pc:0,nota:null},
-  {id:'ns1113',nombre:'NS1113CL',b1:375,b2:356.35,b3:null,cl:true,pc:2,nota:null},
-  {id:'ns1117',nombre:'NS1117CL',b1:345,b2:327.75,b3:null,cl:true,pc:2,nota:null},
-  {id:'ns1115',nombre:'NS1115CL',b1:315,b2:299.25,b3:null,cl:true,pc:2,nota:null},
-];
-const PAGO_DESC={pagare:0,contado:8,fwd_corto:3,fwd_cosecha:3,avc:12};
-const PAGO_LABEL={pagare:'Pagaré',contado:'Contado −8%',fwd_corto:'Canje FWD Dic26/Ene27 −3%',fwd_cosecha:'Canje FWD Cosecha 2027 −3%',avc:'Canje Dispo AVC −12%'};
+// ── DEFAULTS ──────────────────────────────────────────────
+const DEFAULT_CONFIG={
+  pago:{pagare:0,contado:8,fwd_corto:3,fwd_cosecha:3,avc:12},
+  especial:{crecer:2.5,pc_especial:6,pc_maiz:8,pc_ns1227:0,pc_gira:2},
+  vol_maiz:[
+    {min:0,max:29,desc:0},{min:30,max:99,desc:3},{min:100,max:199,desc:6},
+    {min:200,max:349,desc:8},{min:350,max:549,desc:9},{min:550,max:999,desc:10},{min:1000,max:999999,desc:11}
+  ],
+  vol_gira:[
+    {min:0,max:30,desc:0},{min:31,max:60,desc:1},{min:61,max:120,desc:2},
+    {min:121,max:180,desc:3},{min:181,max:330,desc:4},{min:331,max:999999,desc:5}
+  ],
+  maiz:[
+    {id:'ns7852',nombre:'NS7852 Viptera3',b1:260,b2:249.6,b3:239.2,cl:false,pcKey:'pc_maiz',nota:null},
+    {id:'ns7765',nombre:'NS7765 Viptera3',b1:250,b2:240,b3:230,cl:false,pcKey:'pc_especial',nota:null},
+    {id:'ns7925',nombre:'NS7925 Viptera3',b1:245,b2:235.2,b3:225.4,cl:false,pcKey:'pc_maiz',nota:null},
+    {id:'ns7621',nombre:'NS7621 Viptera3',b1:245,b2:235.2,b3:225.4,cl:false,pcKey:'pc_maiz',nota:null},
+    {id:'ax7761',nombre:'AX7761 VT3P',b1:240,b2:230.4,b3:220.8,cl:false,pcKey:'pc_especial',nota:null},
+    {id:'ns7921',nombre:'NS7921 Viptera3CL',b1:240,b2:230.4,b3:220.8,cl:true,pcKey:'pc_maiz',nota:'Fuera de estándar — susceptible a glifosato 2-5% plantas'},
+    {id:'ns7624',nombre:'NS7624 Viptera3CL',b1:235,b2:225.6,b3:216.2,cl:true,pcKey:'pc_maiz',nota:null},
+    {id:'ax7784',nombre:'AX7784 VT3P',b1:215,b2:206.4,b3:197.8,cl:false,pcKey:'pc_maiz',nota:null},
+    {id:'ns7818',nombre:'NS7818 Viptera3',b1:200,b2:192,b3:184,cl:false,pcKey:'pc_maiz',nota:null},
+    {id:'ss2223',nombre:'SS2223S VIP 3',b1:185,b2:177.6,b3:170.2,cl:false,pcKey:'pc_maiz',nota:'Bolsas de 60.000 semillas'},
+    {id:'ns7800',nombre:'NS7800 TGCL',b1:165,b2:158.4,b3:151.8,cl:true,pcKey:'pc_maiz',nota:null},
+  ],
+  gira:[
+    {id:'ns1227',nombre:'NS1227CLHO',b1:385,b2:365.75,b3:null,cl:true,pcKey:'pc_ns1227',nota:null},
+    {id:'ns1113',nombre:'NS1113CL',b1:375,b2:356.35,b3:null,cl:true,pcKey:'pc_gira',nota:null},
+    {id:'ns1117',nombre:'NS1117CL',b1:345,b2:327.75,b3:null,cl:true,pcKey:'pc_gira',nota:null},
+    {id:'ns1115',nombre:'NS1115CL',b1:315,b2:299.25,b3:null,cl:true,pcKey:'pc_gira',nota:null},
+  ],
+  validez:'30/06/2026'
+};
 
-// Descuentos por volumen
-const VOL_MAIZ=[
-  {min:0,  max:29,  desc:0},
-  {min:30, max:99,  desc:3},
-  {min:100,max:199, desc:6},
-  {min:200,max:349, desc:8},
-  {min:350,max:549, desc:9},
-  {min:550,max:999, desc:10},
-  {min:1000,max:Infinity,desc:11},
-];
-const VOL_GIRA=[
-  {min:0,  max:30,  desc:0},
-  {min:31, max:60,  desc:1},
-  {min:61, max:120, desc:2},
-  {min:121,max:180, desc:3},
-  {min:181,max:330, desc:4},
-  {min:331,max:Infinity,desc:5},
-];
-
-function getDescVolumen(bolsas, cultivo){
-  const tabla=cultivo==='maiz'?VOL_MAIZ:VOL_GIRA;
-  const tramo=tabla.find(t=>bolsas>=t.min&&bolsas<=t.max);
-  return tramo?tramo.desc:0;
-}
-
+// ── ESTADO ────────────────────────────────────────────────
+let cfg=loadConfig();
 let cultivo='maiz';
 let carrito=[];
 let historial=JSON.parse(localStorage.getItem('cot_hist')||'[]');
 
+function loadConfig(){
+  try{
+    const s=localStorage.getItem('cot_cfg');
+    if(s)return JSON.parse(s);
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+}
+function saveConfig(){localStorage.setItem('cot_cfg',JSON.stringify(cfg));}
+
+// ── HELPERS ───────────────────────────────────────────────
+function getPrecioLista(h,banda){
+  if(banda===1)return h.b1;
+  if(banda===2)return h.b2;
+  return h.b3!=null?h.b3:h.b1;
+}
+function getDescVolumen(bolsas,cult){
+  const tabla=cult==='maiz'?cfg.vol_maiz:cfg.vol_gira;
+  const t=tabla.find(x=>bolsas>=x.min&&bolsas<=x.max);
+  return t?t.desc:0;
+}
+function totalBolsasCultivo(c){return carrito.filter(x=>x.cultivo===c).reduce((a,b)=>a+b.qty,0);}
+function getPcHibrido(h){return cfg.especial[h.pcKey]||0;}
+function getDescPago(pagoKey,cult){
+  if(cult==='gira'&&pagoKey==='avc')return cfg.pago.avc||0;
+  return cfg.pago[pagoKey]||0;
+}
+function getPagoLabel(key){
+  const d=cfg.pago[key]||0;
+  const labels={pagare:'Pagaré',contado:'Contado',fwd_corto:'Canje FWD Dic26/Ene27',fwd_cosecha:'Canje FWD Cosecha 2027',avc:'Canje Dispo AVC'};
+  return (labels[key]||key)+(d>0?` −${d}%`:'');
+}
+
+function calcDescItem(item,pago,precampaña,crecer,dVol){
+  let d=0;
+  if(precampaña)d+=getPcHibrido(item);
+  d+=getDescPago(pago,item.cultivo);
+  if(crecer)d+=cfg.especial.crecer||0;
+  d+=dVol;
+  return d;
+}
+
+// ── UI TABS ───────────────────────────────────────────────
 function showTab(t){
   document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
-  const tabs=['cotizar','historial'];
-  document.querySelectorAll('.nav-btn')[tabs.indexOf(t)].classList.add('active');
+  ['cotizar','historial','config'].forEach((name,i)=>{
+    if(name===t)document.querySelectorAll('.nav-btn')[i].classList.add('active');
+  });
   if(t==='historial')renderHistorial();
+  if(t==='config')renderConfig();
 }
 
 function setCultivo(c){
@@ -371,49 +548,25 @@ function setCultivo(c){
   b3opt.disabled=(c==='gira');
   if(c==='gira'&&document.getElementById('sel-banda').value==='3')document.getElementById('sel-banda').value='1';
   document.getElementById('hibridos-title').textContent='Híbridos · '+(c==='maiz'?'Maíz':'Girasol');
-  renderHibridos();
-  recalc();
+  renderHibridos();recalc();
 }
 
-function getPrecioLista(h,banda){
-  if(banda===1)return h.b1;
-  if(banda===2)return h.b2;
-  return h.b3!=null?h.b3:h.b1;
-}
-
-function calcDesc(h, dVol){
+// ── COTIZADOR ─────────────────────────────────────────────
+function renderHibridos(){
+  const lista=cultivo==='maiz'?cfg.maiz:cfg.gira;
+  const banda=parseInt(document.getElementById('sel-banda').value);
   const pago=document.getElementById('sel-pago').value;
   const precampaña=document.getElementById('sel-precampaña').value==='si';
   const crecer=document.getElementById('sel-crecer').value==='si';
-  let d=0;
-  if(precampaña)d+=h.pc||0;
-  const dp=(cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
-  d+=dp;
-  if(crecer)d+=2.5;
-  d+=(dVol||0);
-  return d;
-}
-
-function totalBolsasCultivo(c){
-  return carrito.filter(x=>x.cultivo===c).reduce((a,b)=>a+b.qty,0);
-}
-
-function renderHibridos(){
-  const lista=cultivo==='maiz'?MAIZ:GIRA;
-  const banda=parseInt(document.getElementById('sel-banda').value);
-  const totalBolsas=totalBolsasCultivo(cultivo);
-  const dVol=getDescVolumen(totalBolsas,cultivo);
-  const body=document.getElementById('hibridos-body');
-  body.innerHTML=lista.map(h=>{
-    const lista_precio=getPrecioLista(h,banda);
-    const d=calcDesc(h,dVol);
-    const pf=lista_precio*(1-d/100);
+  const dVol=getDescVolumen(totalBolsasCultivo(cultivo),cultivo);
+  document.getElementById('hibridos-body').innerHTML=lista.map(h=>{
+    const lp=getPrecioLista(h,banda);
+    const fakeItem={...h,cultivo};
+    const d=calcDescItem(fakeItem,pago,precampaña,crecer,dVol);
+    const pf=lp*(1-d/100);
     return`<tr>
-      <td>
-        <div class="h-name">${h.nombre}${h.cl?'<span class="badge-cl">CL</span>':''}</div>
-        ${h.nota?`<div class="h-warn">⚠ ${h.nota}</div>`:''}
-      </td>
-      <td class="precio-cell">USD ${lista_precio.toFixed(2)}</td>
+      <td><div class="h-name">${h.nombre}${h.cl?'<span class="badge-cl">CL</span>':''}</div>${h.nota?`<div class="h-warn">⚠ ${h.nota}</div>`:''}</td>
+      <td class="precio-cell">USD ${lp.toFixed(2)}</td>
       <td class="precio-cell" style="color:var(--accent);font-weight:500;">USD ${pf.toFixed(2)}</td>
       <td class="qty-cell"><input type="number" min="1" step="1" value="1" id="qty-${h.id}"></td>
       <td class="add-cell"><button class="btn-add" onclick="agregarItem('${h.id}')">+ Agregar</button></td>
@@ -422,15 +575,15 @@ function renderHibridos(){
 }
 
 function agregarItem(id){
-  const lista=cultivo==='maiz'?MAIZ:GIRA;
+  const lista=cultivo==='maiz'?cfg.maiz:cfg.gira;
   const h=lista.find(x=>x.id===id);
   if(!h)return;
   const banda=parseInt(document.getElementById('sel-banda').value);
   const qty=parseInt(document.getElementById('qty-'+id).value)||1;
-  const lista_precio=getPrecioLista(h,banda);
+  const lp=getPrecioLista(h,banda);
   const existing=carrito.find(x=>x.id===id&&x.cultivo===cultivo&&x.banda===banda);
   if(existing){existing.qty+=qty;}
-  else{carrito.push({id,cultivo,nombre:h.nombre,cl:h.cl,nota:h.nota,pc:h.pc,banda,lista_precio,qty});}
+  else{carrito.push({id,cultivo,nombre:h.nombre,cl:h.cl,nota:h.nota,pcKey:h.pcKey,banda,lista_precio:lp,qty});}
   recalc();
   showToast('✓ '+h.nombre+' agregado');
 }
@@ -444,34 +597,21 @@ function recalc(){
   const crecer=document.getElementById('sel-crecer').value==='si';
   const body=document.getElementById('carrito-body');
   const descWrap=document.getElementById('desc-wrap');
-
   if(!carrito.length){
     body.innerHTML='<div class="carrito-empty"><div class="ico">📋</div>Agregá híbridos desde la tabla de arriba</div>';
-    descWrap.style.display='none';
-    return;
+    descWrap.style.display='none';return;
   }
-
-  // Calcular volumen por cultivo
-  const bolsasMaiz=totalBolsasCultivo('maiz');
-  const bolsasGira=totalBolsasCultivo('gira');
-  const dVolMaiz=getDescVolumen(bolsasMaiz,'maiz');
-  const dVolGira=getDescVolumen(bolsasGira,'gira');
-
+  const dVolMaiz=getDescVolumen(totalBolsasCultivo('maiz'),'maiz');
+  const dVolGira=getDescVolumen(totalBolsasCultivo('gira'),'gira');
   let subtotal=0;
   const items=carrito.map((item,i)=>{
     const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
-    let d=0;
-    if(precampaña)d+=item.pc||0;
-    const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
-    d+=dp;
-    if(crecer)d+=2.5;
-    d+=dVol;
+    const d=calcDescItem(item,pago,precampaña,crecer,dVol);
     const pf=item.lista_precio*(1-d/100);
     const total=pf*item.qty;
     subtotal+=total;
     return{...item,d,dVol,pf,total};
   });
-
   body.innerHTML=items.map((item,i)=>`
     <div class="ci">
       <div>
@@ -480,37 +620,24 @@ function recalc(){
       </div>
       <div class="ci-precio">USD ${item.total.toFixed(2)}</div>
       <button class="ci-del" onclick="quitarItem(${i})">×</button>
-    </div>
-  `).join('');
-
-  // Tags de descuento
+    </div>`).join('');
   let tags=[];
-  const dp=PAGO_DESC[pago]||0;
-  if(precampaña)tags.push('Pre-campaña (variable por híbrido)');
-  if(dp)tags.push(PAGO_LABEL[pago]);
-  if(crecer)tags.push('Plan Crecer −2,5%');
-  if(dVolMaiz>0)tags.push(`Vol. maíz ${bolsasMaiz} bolsas → −${dVolMaiz}%`);
-  if(dVolGira>0)tags.push(`Vol. girasol ${bolsasGira} bolsas → −${dVolGira}%`);
+  const dp=getDescPago(pago,'maiz');
+  if(precampaña)tags.push('Pre-campaña aplicada');
+  if(dp)tags.push(getPagoLabel(pago));
+  if(crecer)tags.push(`Plan Crecer −${cfg.especial.crecer}%`);
+  if(dVolMaiz>0)tags.push(`Vol. maíz ${totalBolsasCultivo('maiz')} bolsas → −${dVolMaiz}%`);
+  if(dVolGira>0)tags.push(`Vol. girasol ${totalBolsasCultivo('gira')} bolsas → −${dVolGira}%`);
   document.getElementById('desc-tags').innerHTML=tags.length?tags.map(t=>`<span class="dtag">✓ ${t}</span>`).join(''):'<span style="font-size:12px;color:var(--text-muted);">Sin descuentos adicionales</span>';
-
-  // Próximo tramo volumen maíz
   let volHint='';
-  if(bolsasMaiz>0){
-    const sigMaiz=VOL_MAIZ.find(t=>t.min>bolsasMaiz);
-    if(sigMaiz)volHint+=` · Maíz: faltan ${sigMaiz.min-bolsasMaiz} bolsas para −${sigMaiz.desc}%`;
-  }
-  if(bolsasGira>0){
-    const sigGira=VOL_GIRA.find(t=>t.min>bolsasGira);
-    if(sigGira)volHint+=` · Girasol: faltan ${sigGira.min-bolsasGira} bolsas para −${sigGira.desc}%`;
-  }
-
+  const bMaiz=totalBolsasCultivo('maiz');
+  const bGira=totalBolsasCultivo('gira');
+  if(bMaiz>0){const s=cfg.vol_maiz.find(t=>t.min>bMaiz);if(s)volHint+=` · Maíz: faltan ${s.min-bMaiz} para −${s.desc}%`;}
+  if(bGira>0){const s=cfg.vol_gira.find(t=>t.min>bGira);if(s)volHint+=` · Girasol: faltan ${s.min-bGira} para −${s.desc}%`;}
   document.getElementById('total-num').textContent='USD '+subtotal.toFixed(2);
-  document.getElementById('total-sub').textContent=carrito.reduce((a,b)=>a+b.qty,0)+' bolsa(s) en total'+(volHint?volHint:'');
-
-  // Notas
+  document.getElementById('total-sub').textContent=carrito.reduce((a,b)=>a+b.qty,0)+' bolsa(s)'+(volHint||'');
   const notas=items.filter(x=>x.nota).map(x=>`<div class="nota-warn">⚠ <strong>${x.nombre}:</strong> ${x.nota}</div>`).join('');
   document.getElementById('notas-warn').innerHTML=notas;
-
   descWrap.style.display='block';
 }
 
@@ -522,25 +649,18 @@ function guardarCotizacion(){
   const cliente=document.getElementById('inp-cliente').value.trim();
   const dVolMaiz=getDescVolumen(totalBolsasCultivo('maiz'),'maiz');
   const dVolGira=getDescVolumen(totalBolsasCultivo('gira'),'gira');
-
   let subtotal=0;
   const items=carrito.map(item=>{
     const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
-    let d=0;
-    if(precampaña)d+=item.pc||0;
-    const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
-    d+=dp;
-    if(crecer)d+=2.5;
-    d+=dVol;
+    const d=calcDescItem(item,pago,precampaña,crecer,dVol);
     const pf=item.lista_precio*(1-d/100);
     const total=pf*item.qty;
     subtotal+=total;
     return{...item,d,pf,total};
   });
-
   const now=new Date();
   const fecha=now.toLocaleDateString('es-AR')+' '+now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
-  historial.unshift({id:Date.now(),fecha,cliente:cliente||'—',pago:PAGO_LABEL[pago],items,subtotal});
+  historial.unshift({id:Date.now(),fecha,cliente:cliente||'—',pago:getPagoLabel(pago),items,subtotal});
   localStorage.setItem('cot_hist',JSON.stringify(historial));
   showToast('✓ Cotización guardada');
 }
@@ -556,24 +676,18 @@ function copiarWA(){
   let subtotal=0;
   let txt='*Cotización Nidera — Cambá Agronegocios*\n';
   if(cliente)txt+=`Cliente: ${cliente}\n`;
-  txt+=`Pago: ${PAGO_LABEL[pago]}\n\n`;
+  txt+=`Pago: ${getPagoLabel(pago)}\n\n`;
   carrito.forEach(item=>{
     const dVol=item.cultivo==='maiz'?dVolMaiz:dVolGira;
-    let d=0;
-    if(precampaña)d+=item.pc||0;
-    const dp=(item.cultivo==='gira'&&pago==='avc')?12:(PAGO_DESC[pago]||0);
-    d+=dp;
-    if(crecer)d+=2.5;
-    d+=dVol;
+    const d=calcDescItem(item,pago,precampaña,crecer,dVol);
     const pf=item.lista_precio*(1-d/100);
     const total=pf*item.qty;
     subtotal+=total;
     txt+=`• ${item.nombre}: ${item.qty} bolsa${item.qty>1?'s':''} × USD ${pf.toFixed(2)} = *USD ${total.toFixed(2)}*\n`;
   });
-  if(dVolMaiz>0)txt+=`_Desc. volumen maíz aplicado: −${dVolMaiz}%_\n`;
-  if(dVolGira>0)txt+=`_Desc. volumen girasol aplicado: −${dVolGira}%_\n`;
-  txt+=`\n*Total: USD ${subtotal.toFixed(2)}*\n`;
-  txt+=`_Válido hasta 30/06/2026 o hasta agotar stock_`;
+  if(dVolMaiz>0)txt+=`_Desc. volumen maíz: −${dVolMaiz}%_\n`;
+  if(dVolGira>0)txt+=`_Desc. volumen girasol: −${dVolGira}%_\n`;
+  txt+=`\n*Total: USD ${subtotal.toFixed(2)}*\n_Válido hasta ${cfg.validez} o hasta agotar stock_`;
   navigator.clipboard.writeText(txt).then(()=>showToast('✓ Copiado al portapapeles')).catch(()=>showToast('No se pudo copiar'));
 }
 
@@ -585,6 +699,7 @@ function limpiarCotizacion(){
   showToast('Cotización limpiada');
 }
 
+// ── HISTORIAL ─────────────────────────────────────────────
 function renderHistorial(){
   const el=document.getElementById('hist-body');
   if(!historial.length){el.innerHTML='<div class="empty"><div class="ico">📋</div>No hay cotizaciones guardadas todavía.</div>';return;}
@@ -600,25 +715,154 @@ function renderHistorial(){
         <div class="hist-total">USD ${c.subtotal.toFixed(2)}</div>
         <div class="hist-fecha">${c.items.reduce((a,b)=>a+b.qty,0)} bolsas</div>
       </div>
-      <button class="hist-del" onclick="eliminarHist(${i})" title="Eliminar">×</button>
+      <button class="hist-del" onclick="eliminarHist(${i})">×</button>
     </div>`;
   }).join('')+'</div>';
 }
+function eliminarHist(i){historial.splice(i,1);localStorage.setItem('cot_hist',JSON.stringify(historial));renderHistorial();showToast('Eliminada');}
+function limpiarHistorial(){if(!historial.length)return;if(!confirm('¿Borrar todo el historial?'))return;historial=[];localStorage.setItem('cot_hist',JSON.stringify(historial));renderHistorial();showToast('Historial limpiado');}
 
-function eliminarHist(i){
-  historial.splice(i,1);
-  localStorage.setItem('cot_hist',JSON.stringify(historial));
-  renderHistorial();
-  showToast('Cotización eliminada');
+// ── CONFIG ────────────────────────────────────────────────
+function renderConfig(){
+  // Pago
+  document.getElementById('cfg-pagare').value=cfg.pago.pagare;
+  document.getElementById('cfg-contado').value=cfg.pago.contado;
+  document.getElementById('cfg-fwd_corto').value=cfg.pago.fwd_corto;
+  document.getElementById('cfg-fwd_cosecha').value=cfg.pago.fwd_cosecha;
+  document.getElementById('cfg-avc').value=cfg.pago.avc;
+  // Especiales
+  document.getElementById('cfg-crecer').value=cfg.especial.crecer;
+  document.getElementById('cfg-pc-especial').value=cfg.especial.pc_especial;
+  document.getElementById('cfg-pc-maiz').value=cfg.especial.pc_maiz;
+  document.getElementById('cfg-pc-ns1227').value=cfg.especial.pc_ns1227;
+  document.getElementById('cfg-pc-gira').value=cfg.especial.pc_gira;
+  // Volumen maíz
+  document.getElementById('cfg-vol-maiz').innerHTML=cfg.vol_maiz.map((t,i)=>`
+    <div class="vol-row">
+      <span class="vol-tramo">${t.min}${t.max>=999999?'+':' – '+t.max} bolsas</span>
+      <input class="cfg-input" type="number" step="0.1" min="0" id="vmaiz-${i}" value="${t.desc}">
+      <span class="cfg-unit">%</span>
+    </div>`).join('');
+  // Volumen girasol
+  document.getElementById('cfg-vol-gira').innerHTML=cfg.vol_gira.map((t,i)=>`
+    <div class="vol-row">
+      <span class="vol-tramo">${t.min}${t.max>=999999?'+':' – '+t.max} bolsas</span>
+      <input class="cfg-input" type="number" step="0.1" min="0" id="vgira-${i}" value="${t.desc}">
+      <span class="cfg-unit">%</span>
+    </div>`).join('');
+  // Precios maíz
+  renderPreciosList('maiz');
+  renderPreciosList('gira');
+  // Validez
+  document.getElementById('cfg-validez').value=cfg.validez||'';
 }
 
-function limpiarHistorial(){
-  if(!historial.length)return;
-  if(!confirm('¿Borrar todo el historial?'))return;
-  historial=[];
-  localStorage.setItem('cot_hist',JSON.stringify(historial));
-  renderHistorial();
-  showToast('Historial limpiado');
+function renderPreciosList(cult){
+  const lista=cult==='maiz'?cfg.maiz:cfg.gira;
+  const el=document.getElementById('cfg-precios-'+cult);
+  el.innerHTML=lista.map((h,i)=>`
+    <div class="prod-item">
+      <div class="prod-item-info">
+        <div class="prod-item-name">${h.nombre}${h.cl?'<span class="badge-cl">CL</span>':''}</div>
+        ${h.nota?`<div class="prod-item-sub">⚠ ${h.nota}</div>`:''}
+      </div>
+      <div class="prod-precios">
+        <span class="pl">B1</span><input type="number" step="0.01" min="0" value="${h.b1}" id="p-${cult}-${i}-b1">
+        <span class="pl">B2</span><input type="number" step="0.01" min="0" value="${h.b2}" id="p-${cult}-${i}-b2">
+        ${cult==='maiz'?`<span class="pl">B3</span><input type="number" step="0.01" min="0" value="${h.b3||''}" id="p-${cult}-${i}-b3">`:''}
+      </div>
+      <button class="btn-sm btn-sm-danger" style="margin-left:8px;" onclick="eliminarProd('${cult}',${i})">Borrar</button>
+    </div>`).join('');
+}
+
+function mostrarAgregarProd(cult){
+  const el=document.getElementById('form-add-'+cult);
+  if(el.style.display!=='none'){el.style.display='none';return;}
+  el.style.display='block';
+  el.innerHTML=`<div class="add-prod-form">
+    <div class="fg-row">
+      <div class="fg"><label>Nombre</label><input type="text" id="ap-nombre-${cult}" placeholder="Ej: NS7999 Viptera3"></div>
+      <div class="fg" style="flex:0 0 80px;"><label>CL</label>
+        <select id="ap-cl-${cult}"><option value="no">No</option><option value="si">Sí</option></select>
+      </div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Banda 1 (USD)</label><input type="number" step="0.01" id="ap-b1-${cult}" placeholder="0"></div>
+      <div class="fg"><label>Banda 2 (USD)</label><input type="number" step="0.01" id="ap-b2-${cult}" placeholder="0"></div>
+      ${cult==='maiz'?`<div class="fg"><label>Banda 3 (USD)</label><input type="number" step="0.01" id="ap-b3-${cult}" placeholder="0"></div>`:''}
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Nota (opcional)</label><input type="text" id="ap-nota-${cult}" placeholder="Ej: Fuera de estándar..."></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="btn btn-dark" style="padding:7px 14px;font-size:12px;" onclick="agregarProd('${cult}')">Agregar</button>
+      <button class="btn btn-ghost" style="padding:7px 14px;font-size:12px;" onclick="document.getElementById('form-add-${cult}').style.display='none'">Cancelar</button>
+    </div>
+  </div>`;
+}
+
+function agregarProd(cult){
+  const nombre=document.getElementById('ap-nombre-'+cult).value.trim();
+  if(!nombre){showToast('Ingresá el nombre del híbrido');return;}
+  const cl=document.getElementById('ap-cl-'+cult).value==='si';
+  const b1=parseFloat(document.getElementById('ap-b1-'+cult).value)||0;
+  const b2=parseFloat(document.getElementById('ap-b2-'+cult).value)||0;
+  const b3=cult==='maiz'?(parseFloat(document.getElementById('ap-b3-'+cult).value)||null):null;
+  const nota=document.getElementById('ap-nota-'+cult).value.trim()||null;
+  const nuevo={id:'p'+Date.now(),nombre,b1,b2,b3,cl,pcKey:cult==='maiz'?'pc_maiz':'pc_gira',nota};
+  cfg[cult].push(nuevo);
+  document.getElementById('form-add-'+cult).style.display='none';
+  renderPreciosList(cult);
+  showToast('✓ '+nombre+' agregado');
+}
+
+function eliminarProd(cult,idx){
+  if(!confirm('¿Eliminar '+cfg[cult][idx].nombre+'?'))return;
+  cfg[cult].splice(idx,1);
+  renderPreciosList(cult);
+  showToast('Híbrido eliminado');
+}
+
+function guardarConfig(){
+  // Pago
+  cfg.pago.pagare=parseFloat(document.getElementById('cfg-pagare').value)||0;
+  cfg.pago.contado=parseFloat(document.getElementById('cfg-contado').value)||0;
+  cfg.pago.fwd_corto=parseFloat(document.getElementById('cfg-fwd_corto').value)||0;
+  cfg.pago.fwd_cosecha=parseFloat(document.getElementById('cfg-fwd_cosecha').value)||0;
+  cfg.pago.avc=parseFloat(document.getElementById('cfg-avc').value)||0;
+  // Especiales
+  cfg.especial.crecer=parseFloat(document.getElementById('cfg-crecer').value)||0;
+  cfg.especial.pc_especial=parseFloat(document.getElementById('cfg-pc-especial').value)||0;
+  cfg.especial.pc_maiz=parseFloat(document.getElementById('cfg-pc-maiz').value)||0;
+  cfg.especial.pc_ns1227=parseFloat(document.getElementById('cfg-pc-ns1227').value)||0;
+  cfg.especial.pc_gira=parseFloat(document.getElementById('cfg-pc-gira').value)||0;
+  // Vol maíz
+  cfg.vol_maiz.forEach((t,i)=>{t.desc=parseFloat(document.getElementById('vmaiz-'+i).value)||0;});
+  // Vol girasol
+  cfg.vol_gira.forEach((t,i)=>{t.desc=parseFloat(document.getElementById('vgira-'+i).value)||0;});
+  // Precios
+  ['maiz','gira'].forEach(cult=>{
+    cfg[cult].forEach((h,i)=>{
+      h.b1=parseFloat(document.getElementById('p-'+cult+'-'+i+'-b1').value)||h.b1;
+      h.b2=parseFloat(document.getElementById('p-'+cult+'-'+i+'-b2').value)||h.b2;
+      if(cult==='maiz'){const v=document.getElementById('p-'+cult+'-'+i+'-b3');h.b3=v?parseFloat(v.value)||null:null;}
+    });
+  });
+  // Validez
+  cfg.validez=document.getElementById('cfg-validez').value.trim()||cfg.validez;
+  document.getElementById('footer-validez').textContent='hasta el '+cfg.validez;
+  saveConfig();
+  renderHibridos();
+  showToast('✓ Configuración guardada');
+}
+
+function resetConfig(){
+  if(!confirm('¿Restaurar todos los valores originales de Nidera? Se perderán los cambios.'))return;
+  cfg=JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  saveConfig();
+  renderConfig();
+  renderHibridos();
+  showToast('✓ Valores restaurados');
 }
 
 function showToast(msg){
@@ -628,6 +872,7 @@ function showToast(msg){
 }
 
 // Init
+document.getElementById('footer-validez').textContent='hasta el '+cfg.validez;
 renderHibridos();
 </script>
 </body>
