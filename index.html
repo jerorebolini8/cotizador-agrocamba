@@ -594,13 +594,7 @@ function getDescVolumenEfectivo(cult){
 }
 
 function updateToggleUI(){
-  ['nidera','agrocamba'].forEach(k=>{
-    const btn=document.getElementById('tog-'+k);
-    const val=cfg.especial['desc_'+k]||0;
-    document.getElementById('dt-'+k+'-val').textContent=val>0?`−${val}%`:'(0%)';
-    btn.classList.toggle('on',descToggles[k]&&val>0);
-    btn.style.display=val>0?'inline-flex':'none';
-  });
+  // los toggles fueron reemplazados por inputs inline, esta función ya no hace nada
 }
 
 function toggleDesc(k){
