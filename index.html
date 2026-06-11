@@ -23,7 +23,7 @@
 html,body{height:100%;}
 body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
 .sidebar{width:240px;min-height:100vh;background:var(--green-dark);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;overflow:hidden;}
-.sidebar::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=480&q=60') center/cover no-repeat;opacity:.13;pointer-events:none;}
+.sidebar::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=480&q=70') center/cover no-repeat;opacity:.13;pointer-events:none;}
 .sidebar-logo{padding:1.75rem 1.5rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:.75rem;position:relative;}
 .sidebar-logo .co{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-bright);font-family:var(--mono);margin-bottom:6px;}
 .sidebar-logo .name{font-size:16px;font-weight:700;color:#fff;line-height:1.2;}
@@ -42,14 +42,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 .tab-content{display:none;}
 .tab-content.active{display:block;}
 .hero{position:relative;height:160px;overflow:hidden;background:var(--green-dark);}
-.hero-img{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&q=70') center 40%/cover no-repeat;opacity:.45;}
+.hero-img{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1560493676-04071c5f467b?w=1200&q=85') center 40%/cover no-repeat;opacity:.45;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,61,43,.85) 0%,rgba(26,61,43,.4) 100%);}
 .hero-content{position:relative;padding:2rem 2.5rem;display:flex;align-items:flex-end;justify-content:space-between;height:100%;}
 .hero-title{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.5px;}
 .hero-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:3px;}
-.hero-gira .hero-img{background-image:url('https://images.unsplash.com/photo-1504472478235-9bc48ba4d60f?w=1200&q=70');}
-.hero-hist .hero-img{background-image:url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1200&q=70');}
-.hero-cfg .hero-img{background-image:url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&q=70');}
+.hero-gira .hero-img{background-image:url('https://images.unsplash.com/photo-1550159930-40066082a4fc?w=1200&q=85');}
+.hero-hist .hero-img{background-image:url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1200&q=85');}
+.hero-cfg .hero-img{background-image:url('https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=1200&q=85');}
 .content{padding:1.5rem 2.5rem 3rem;}
 .cultivo-tabs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem;}
 .ctab{position:relative;height:80px;border-radius:var(--radius);overflow:hidden;border:2px solid transparent;cursor:pointer;transition:all .2s;}
@@ -57,11 +57,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 .ctab:hover .ctab-img{transform:scale(1.04);}
 .ctab-overlay{position:absolute;inset:0;transition:all .2s;}
 .ctab-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;letter-spacing:.02em;text-shadow:0 2px 8px rgba(0,0,0,.5);gap:8px;}
-#tab-maiz .ctab-img{background-image:url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600&q=60');}
+#tab-maiz .ctab-img{background-image:url('https://images.unsplash.com/photo-1560493676-04071c5f467b?w=600&q=80');}
 #tab-maiz .ctab-overlay{background:linear-gradient(135deg,rgba(26,61,43,.6),rgba(26,61,43,.3));}
 #tab-maiz.active-maiz{border-color:var(--green-bright);box-shadow:0 0 0 3px rgba(58,150,104,.25),var(--shadow-lg);}
 #tab-maiz.active-maiz .ctab-overlay{background:linear-gradient(135deg,rgba(26,61,43,.4),rgba(58,150,104,.2));}
-#tab-gira .ctab-img{background-image:url('https://images.unsplash.com/photo-1504472478235-9bc48ba4d60f?w=600&q=60');}
+#tab-gira .ctab-img{background-image:url('https://images.unsplash.com/photo-1550159930-40066082a4fc?w=600&q=80');}
 #tab-gira .ctab-overlay{background:linear-gradient(135deg,rgba(100,60,0,.6),rgba(100,60,0,.3));}
 #tab-gira.active-gira{border-color:var(--gold-bright);box-shadow:0 0 0 3px rgba(245,196,0,.25),var(--shadow-lg);}
 #tab-gira.active-gira .ctab-overlay{background:linear-gradient(135deg,rgba(100,60,0,.4),rgba(200,150,10,.25));}
@@ -651,8 +651,8 @@ function setCultivo(c){
   const heroImg=document.getElementById('hero-img');
   if(heroImg){
     heroImg.style.backgroundImage=c==='maiz'
-      ?"url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&q=70')"
-      :"url('https://images.unsplash.com/photo-1504472478235-9bc48ba4d60f?w=1200&q=70')";
+      ?"url('https://images.unsplash.com/photo-1560493676-04071c5f467b?w=1200&q=85')"
+      :"url('https://images.unsplash.com/photo-1550159930-40066082a4fc?w=1200&q=85')";
   }
   const heroTitle=document.getElementById('hero-title');
   if(heroTitle)heroTitle.textContent=c==='maiz'?'Cotización maíz':'Cotización girasol';
